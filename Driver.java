@@ -15,12 +15,5 @@ public class Driver {
         frame.setPreferredSize(new Dimension(1024,756));
         frame.pack();
         frame.setVisible(true);
-
-
-//        BufferedImage myPicture = ImageIO.read(new File("C:\\Users\\david\\Risk\\out\\production\\Risk\\riskMap.png"));
-//        JLabel picLabel = new JLabel(new ImageIcon(myPicture));
-//        frame.add(picLabel);
-
-
     }
 }

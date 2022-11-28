@@ -80,9 +80,47 @@ public class Driver {
         for (int i = 0; i < Territory.saList.size(); i++){
             mapPane.add(Territory.saList.get(i).area, Integer.valueOf(1));
         }
-
-        Territory iceland = new Territory("Iceland", Continent.EUROPE, 69, new int[]{1, 2, 3}, 296, 75);
-        mapPane.add(iceland.area, Integer.valueOf(1));
+        Territory iceland = new Territory("Iceland", Continent.EUROPE, 14, new int[]{}, 296, 75);
+        Territory greatBritain = new Territory("Great Britain", Continent.EUROPE, 15, new int[]{}, 288, 159);
+        Territory wEurope = new Territory("W. Europe", Continent.EUROPE, 16, new int[]{}, 302, 228);
+        Territory scandanavia = new Territory("Scandanavia", Continent.EUROPE, 17, new int[]{}, 369, 91);
+        Territory nEurope = new Territory("N. Europe", Continent.EUROPE, 18, new int[]{}, 348, 165);
+        Territory sEurope = new Territory("S. Europe", Continent.EUROPE, 19, new int[]{}, 358, 216);
+        Territory ukraine = new Territory("Ukraine", Continent.EUROPE, 20, new int[]{}, 422, 129);
+        for (int i = 0; i < Territory.europeList.size(); i++){
+            mapPane.add(Territory.europeList.get(i).area, Integer.valueOf(1));
+        }
+        Territory nAfrica = new Territory("N. Africa", Continent.AFRICA, 21, new int[]{}, 320, 301);
+        Territory congo = new Territory("Congo", Continent.AFRICA, 22, new int[]{}, 380, 371);
+        Territory sAfrica = new Territory("S. Africa", Continent.AFRICA, 23, new int[]{}, 389, 422);
+        Territory egypt = new Territory("Egypt", Continent.AFRICA, 24, new int[]{}, 387, 277);
+        Territory eAfrica = new Territory("E. Africa", Continent.AFRICA, 25, new int[]{}, 444, 338);
+        Territory madagascar = new Territory("Madagascar", Continent.AFRICA, 26, new int[]{}, 476, 431);
+        for (int i = 0; i < Territory.africaList.size(); i++){
+            mapPane.add(Territory.africaList.get(i).area, Integer.valueOf(1));
+        }
+        Territory middleEast = new Territory("Middle East", Continent.ASIA, 14, new int[]{}, 438, 246);
+        Territory ural = new Territory("Ural", Continent.ASIA, 15, new int[]{}, 498, 107);
+        Territory afghanistan = new Territory("Afghanistan", Continent.ASIA, 16, new int[]{}, 480, 180);
+        Territory india = new Territory("India", Continent.ASIA, 17, new int[]{}, 520, 245);
+        Territory siberia = new Territory("Siberia", Continent.ASIA, 18, new int[]{}, 525, 69);
+        Territory china = new Territory("China", Continent.ASIA, 19, new int[]{}, 565, 219);
+        Territory siam = new Territory("Siam", Continent.ASIA, 20, new int[]{}, 596, 280);
+        Territory yakutsk = new Territory("Yakutsk", Continent.ASIA, 16, new int[]{}, 594, 62);
+        Territory irkutsk = new Territory("Irkutsk", Continent.ASIA, 17, new int[]{}, 584, 134);
+        Territory mongolia = new Territory("Mongolia", Continent.ASIA, 18, new int[]{}, 595, 171);
+        Territory kamchatka = new Territory("Kamchatka", Continent.ASIA, 19, new int[]{}, 648, 67);
+        Territory japan = new Territory("Japan", Continent.ASIA, 20, new int[]{}, 676, 180);
+        for (int i = 0; i < Territory.asiaList.size(); i++){
+            mapPane.add(Territory.asiaList.get(i).area, Integer.valueOf(1));
+        }
+        Territory indonesia = new Territory("Indonesia", Continent.AUSTRALIA, 14, new int[]{}, 592, 359);
+        Territory wAustralia = new Territory("W. Australia", Continent.AUSTRALIA, 15, new int[]{}, 627, 433);
+        Territory nGuinea = new Territory("N. Guinea", Continent.AUSTRALIA, 16, new int[]{}, 673, 333);
+        Territory eAustralia = new Territory("E. Australia", Continent.AUSTRALIA, 17, new int[]{}, 686, 405);
+        for (int i = 0; i < Territory.australiaList.size(); i++){
+            mapPane.add(Territory.australiaList.get(i).area, Integer.valueOf(1));
+        }
 
         frame.add(mapPane);
 

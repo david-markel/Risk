@@ -8,6 +8,8 @@ public class ClickableText extends JLabel {
     int count;
     boolean entered = false;
     String name;
+
+    Dimension dimension;
     int x;
     int y;
 
@@ -16,15 +18,17 @@ public class ClickableText extends JLabel {
         name = n;
         x = X;
         y = Y;
-        setText(name + String.valueOf(count));
+        setText(name + " "+ String.valueOf(count));
         Border border = BorderFactory.createLineBorder(Color.BLACK);
-        setBounds(x, y, 70, 20);
+//        setBackground(Color.WHITE);
+//        setOpaque(true);
+        setBounds(x, y, name.length() * 10, 20);
         addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (entered){
                     count += 1;
-                    setText(name + String.valueOf(count));
+                    setText(name + " "+ String.valueOf(count));
                 }
             }
 

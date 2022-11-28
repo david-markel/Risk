@@ -4,5 +4,6 @@ public enum Teams {
     GREEN,
     YELLOW,
     ORANGE,
-    BROWN
+    BROWN,
+    UNSET
 }

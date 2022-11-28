@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Driver {
     public static void main(String[] args) {
@@ -53,14 +55,35 @@ public class Driver {
         map.setBounds(0, 0, 756, 520);
         mapPane.add(map, Integer.valueOf(0));
 
-        JLabel example = new JLabel("howdy");
-        example.setOpaque(true);
-        example.setBackground(Color.RED);
-        example.setBounds(100, 100, 200, 200);
+//        JLabel example = new JLabel("howdy");
+//        example.setOpaque(true);
+//        example.setBackground(Color.RED);
+//        example.setBounds(100, 100, 200, 200);
 //        mapPane.add(example, Integer.valueOf(1));
 
-        Territory iceland = new Territory("Iceland", Teams.RED, Continent.EUROPE, 1, new int[]{1, 2, 3}, new ClickableText(0, "Iceland", 296, 75));
+        Territory alaska = new Territory("Alaska", Continent.NA, 1, new int[]{2, 3, 100}, 20, 77);
+        Territory nwTerritory = new Territory("N.W. Territory", Continent.NA, 2, new int[]{1, 3}, 84, 77);
+        Territory alberta = new Territory("Alberta", Continent.NA, 3, new int[]{1, 2}, 93, 113);
+        Territory wUS = new Territory("W. US", Continent.NA, 4, new int[]{}, 98, 165);
+        Territory cAmerica = new Territory("C. America", Continent.NA, 5, new int[]{}, 42, 247);
+        Territory eUS = new Territory("E. US", Continent.NA, 6, new int[]{}, 164, 177);
+        Territory ontario = new Territory("Ontario", Continent.NA, 7, new int[]{}, 150, 131);
+        Territory quebec = new Territory("Quebec", Continent.NA, 8, new int[]{}, 209, 136);
+        Territory greenland = new Territory("Greenland", Continent.NA, 9, new int[]{}, 236, 44);
+        for (int i = 0; i < Territory.naList.size(); i++){
+            mapPane.add(Territory.naList.get(i).area, Integer.valueOf(1));
+        }
+        Territory venezuela = new Territory("Venezuela", Continent.SA, 10, new int[]{}, 158, 276);
+        Territory peru = new Territory("Peru", Continent.SA, 11, new int[]{}, 143, 333);
+        Territory argentina = new Territory("Argentina", Continent.SA, 12, new int[]{}, 178, 405);
+        Territory brazil = new Territory("Brazil", Continent.SA, 13, new int[]{}, 208, 319);
+        for (int i = 0; i < Territory.saList.size(); i++){
+            mapPane.add(Territory.saList.get(i).area, Integer.valueOf(1));
+        }
+
+        Territory iceland = new Territory("Iceland", Continent.EUROPE, 69, new int[]{1, 2, 3}, 296, 75);
         mapPane.add(iceland.area, Integer.valueOf(1));
+
         frame.add(mapPane);
 
         frame.pack();

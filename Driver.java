@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Driver {
+    static Integer zIndex = 1;
     public static void main(String[] args) {
         ContinentArmies africa = new ContinentArmies(Continent.AFRICA, 3);
         ContinentArmies asia = new ContinentArmies(Continent.ASIA, 7);
@@ -36,17 +37,19 @@ public class Driver {
 
             @Override
             public void mouseReleased(MouseEvent e) {
-
+                int x=e.getX();
+                int y=e.getY();
+                System.out.println("Cords of mouse helper " +x+","+y);//these co-ords are relative to the component
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-
+//                System.out.println("Entered map");
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-
+//                System.out.println("Left map");
             }
         });
 
@@ -55,11 +58,17 @@ public class Driver {
         map.setBounds(0, 0, 756, 520);
         mapPane.add(map, Integer.valueOf(0));
 
+        PlayersButton playersButton = new PlayersButton();
+        mapPane.add(playersButton, zIndex);
+
+        StartButton startButton = new StartButton();
+        mapPane.add(startButton, zIndex);
+
 //        JLabel example = new JLabel("howdy");
 //        example.setOpaque(true);
 //        example.setBackground(Color.RED);
 //        example.setBounds(100, 100, 200, 200);
-//        mapPane.add(example, Integer.valueOf(1));
+//        mapPane.add(example, zIndex);
 
         Territory alaska = new Territory("Alaska", Continent.NA, 1, new int[]{2, 3, 100}, 20, 77);
         Territory nwTerritory = new Territory("N.W. Territory", Continent.NA, 2, new int[]{1, 3}, 84, 77);
@@ -71,14 +80,14 @@ public class Driver {
         Territory quebec = new Territory("Quebec", Continent.NA, 8, new int[]{}, 209, 136);
         Territory greenland = new Territory("Greenland", Continent.NA, 9, new int[]{}, 236, 44);
         for (int i = 0; i < Territory.naList.size(); i++){
-            mapPane.add(Territory.naList.get(i).area, Integer.valueOf(1));
+            mapPane.add(Territory.naList.get(i).area, zIndex);
         }
         Territory venezuela = new Territory("Venezuela", Continent.SA, 10, new int[]{}, 158, 276);
         Territory peru = new Territory("Peru", Continent.SA, 11, new int[]{}, 143, 333);
         Territory argentina = new Territory("Argentina", Continent.SA, 12, new int[]{}, 178, 405);
         Territory brazil = new Territory("Brazil", Continent.SA, 13, new int[]{}, 208, 319);
         for (int i = 0; i < Territory.saList.size(); i++){
-            mapPane.add(Territory.saList.get(i).area, Integer.valueOf(1));
+            mapPane.add(Territory.saList.get(i).area, zIndex);
         }
         Territory iceland = new Territory("Iceland", Continent.EUROPE, 14, new int[]{}, 296, 75);
         Territory greatBritain = new Territory("Great Britain", Continent.EUROPE, 15, new int[]{}, 288, 159);
@@ -88,7 +97,7 @@ public class Driver {
         Territory sEurope = new Territory("S. Europe", Continent.EUROPE, 19, new int[]{}, 358, 216);
         Territory ukraine = new Territory("Ukraine", Continent.EUROPE, 20, new int[]{}, 422, 129);
         for (int i = 0; i < Territory.europeList.size(); i++){
-            mapPane.add(Territory.europeList.get(i).area, Integer.valueOf(1));
+            mapPane.add(Territory.europeList.get(i).area, zIndex);
         }
         Territory nAfrica = new Territory("N. Africa", Continent.AFRICA, 21, new int[]{}, 320, 301);
         Territory congo = new Territory("Congo", Continent.AFRICA, 22, new int[]{}, 380, 371);
@@ -97,7 +106,7 @@ public class Driver {
         Territory eAfrica = new Territory("E. Africa", Continent.AFRICA, 25, new int[]{}, 444, 338);
         Territory madagascar = new Territory("Madagascar", Continent.AFRICA, 26, new int[]{}, 476, 431);
         for (int i = 0; i < Territory.africaList.size(); i++){
-            mapPane.add(Territory.africaList.get(i).area, Integer.valueOf(1));
+            mapPane.add(Territory.africaList.get(i).area, zIndex);
         }
         Territory middleEast = new Territory("Middle East", Continent.ASIA, 14, new int[]{}, 438, 246);
         Territory ural = new Territory("Ural", Continent.ASIA, 15, new int[]{}, 498, 107);
@@ -112,19 +121,65 @@ public class Driver {
         Territory kamchatka = new Territory("Kamchatka", Continent.ASIA, 19, new int[]{}, 648, 67);
         Territory japan = new Territory("Japan", Continent.ASIA, 20, new int[]{}, 676, 180);
         for (int i = 0; i < Territory.asiaList.size(); i++){
-            mapPane.add(Territory.asiaList.get(i).area, Integer.valueOf(1));
+            mapPane.add(Territory.asiaList.get(i).area, zIndex);
         }
         Territory indonesia = new Territory("Indonesia", Continent.AUSTRALIA, 14, new int[]{}, 592, 359);
         Territory wAustralia = new Territory("W. Australia", Continent.AUSTRALIA, 15, new int[]{}, 627, 433);
         Territory nGuinea = new Territory("N. Guinea", Continent.AUSTRALIA, 16, new int[]{}, 673, 333);
         Territory eAustralia = new Territory("E. Australia", Continent.AUSTRALIA, 17, new int[]{}, 686, 405);
         for (int i = 0; i < Territory.australiaList.size(); i++){
-            mapPane.add(Territory.australiaList.get(i).area, Integer.valueOf(1));
+            mapPane.add(Territory.australiaList.get(i).area, zIndex);
         }
 
         frame.add(mapPane);
-
         frame.pack();
         frame.setVisible(true);
+
+        boolean run = true;
+        boolean setTeams = false;
+        int turn = 0;
+
+        JLabel turnTracker = new JLabel();
+        turnTracker.setBounds(760, 0, 100, 60);
+
+        JLabel actionTracker = new JLabel();
+        actionTracker.setBounds(860, 0, 100, 60);
+
+        while (run){
+            if (StartButton.hasStarted && !setTeams){
+                setTeams = true;
+                if (PlayersButton.players == 3){
+                    Player red = new Player(Teams.RED, 35);
+                    Player blue = new Player(Teams.BLUE, 35);
+                    Player green = new Player(Teams.GREEN, 35);
+                } else if (PlayersButton.players == 4){
+                    Player red = new Player(Teams.RED, 30);
+                    Player blue = new Player(Teams.BLUE, 30);
+                    Player green = new Player(Teams.GREEN, 30);
+                    Player yellow = new Player(Teams.YELLOW, 30);
+                } else if (PlayersButton.players == 5){
+                    Player red = new Player(Teams.RED, 25);
+                    Player blue = new Player(Teams.BLUE,25 );
+                    Player green = new Player(Teams.GREEN, 25);
+                    Player yellow = new Player(Teams.YELLOW, 25);
+                    Player orange = new Player(Teams.ORANGE, 25);
+                }  if (PlayersButton.players == 6){
+                    Player red = new Player(Teams.RED, 20);
+                    Player blue = new Player(Teams.BLUE,20 );
+                    Player green = new Player(Teams.GREEN, 20);
+                    Player yellow = new Player(Teams.YELLOW, 20);
+                    Player orange = new Player(Teams.ORANGE, 20);
+                    Player brown = new Player(Teams.BROWN, 20);
+                }
+                mapPane.remove(playersButton);
+                mapPane.remove(startButton);
+                turnTracker.setText(Player.playerList.get(0).team.name());
+                mapPane.add(turnTracker, Integer.valueOf(0));
+                actionTracker.setText(Action.DEPLOY.name());
+                mapPane.add(actionTracker, Integer.valueOf(0));
+
+            }
+            mapPane.repaint();
+        }
     }
 }

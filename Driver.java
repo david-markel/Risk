@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Driver {
-    // git commt
     static Integer zIndex = 1;
     public static void main(String[] args) {
 
@@ -83,7 +82,7 @@ public class Driver {
         Territory iceland = new Territory("Iceland", Continent.EUROPE, 14, new int[]{}, 296, 75);
         Territory greatBritain = new Territory("Great Britain", Continent.EUROPE, 15, new int[]{}, 288, 159);
         Territory wEurope = new Territory("W. Europe", Continent.EUROPE, 16, new int[]{}, 302, 228);
-        Territory scandanavia = new Territory("Scandanavia", Continent.EUROPE, 17, new int[]{}, 369, 91);
+        Territory scandinavia = new Territory("Scandinavia", Continent.EUROPE, 17, new int[]{}, 369, 91);
         Territory nEurope = new Territory("N. Europe", Continent.EUROPE, 18, new int[]{}, 348, 165);
         Territory sEurope = new Territory("S. Europe", Continent.EUROPE, 19, new int[]{}, 358, 216);
         Territory ukraine = new Territory("Ukraine", Continent.EUROPE, 20, new int[]{}, 422, 129);

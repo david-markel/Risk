@@ -124,7 +124,6 @@ public class Driver {
         frame.setVisible(true);
 
         boolean run = true;
-        boolean setTeams = false;
         int turn = 0;
 
         PlayersButton playersButton = new PlayersButton();
@@ -134,25 +133,50 @@ public class Driver {
         mapPane.add(startButton, zIndex);
 
         ActionUI actionUI;
-
-        Player red = new Player(Teams.RED);
-        Player blue = new Player(Teams.BLUE);
-        Player green = new Player(Teams.GREEN);
-        Player yellow = new Player(Teams.YELLOW);
-        Player orange = new Player(Teams.ORANGE);
-        Player brown = new Player(Teams.BROWN);
+        Phase currentPhase = Phase.START;
 
         while (run){
             if (ActionUI.playerList.size() > 0){
                 Territory.currentPlayer = ActionUI.playerList.get(ActionUI.turn);
+                Territory.currentAction = ActionUI.action;
             }
-            if (StartButton.hasStarted && !setTeams){
-                setTeams = true;
+            if (StartButton.hasStarted && currentPhase == Phase.START){
+                currentPhase = Phase.PLACING;
+                ActionUI.phase = currentPhase;
+                if (PlayersButton.players == 3){
+                    Player red = new Player(Teams.RED);
+                    Player blue = new Player(Teams.BLUE);
+                    Player green = new Player(Teams.GREEN);
+                } else if (PlayersButton.players == 4){
+                    Player red = new Player(Teams.RED);
+                    Player blue = new Player(Teams.BLUE);
+                    Player green = new Player(Teams.GREEN);
+                    Player yellow = new Player(Teams.YELLOW);
+                } else if (PlayersButton.players == 5){
+                    Player red = new Player(Teams.RED);
+                    Player blue = new Player(Teams.BLUE );
+                    Player green = new Player(Teams.GREEN);
+                    Player yellow = new Player(Teams.YELLOW);
+                    Player orange = new Player(Teams.ORANGE);
+                }  if (PlayersButton.players == 6){
+                    Player red = new Player(Teams.RED);
+                    Player blue = new Player(Teams.BLUE );
+                    Player green = new Player(Teams.GREEN);
+                    Player yellow = new Player(Teams.YELLOW);
+                    Player orange = new Player(Teams.ORANGE);
+                    Player brown = new Player(Teams.BROWN);
+                }
                 mapPane.remove(playersButton);
                 mapPane.remove(startButton);
                 actionUI = new ActionUI(Player.playerList);
                 actionUI.setBounds(760, 0, 100, 100);
                 mapPane.add(actionUI, zIndex);
+            }
+            if (currentPhase == Phase.PLACING){
+                if (Territory.clickedWhilePlacing){
+                    Territory.clickedWhilePlacing = false;
+                    ActionUI.nextPlayer();
+                }
             }
             mapPane.repaint();
         }

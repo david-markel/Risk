@@ -5,7 +5,6 @@ public class Player {
     Teams team;
     int totalTroops;
     List<Territory> playerTerritories;
-
     static List<Player> playerList = new ArrayList<>();
 
     Player(Teams t){

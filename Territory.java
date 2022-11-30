@@ -9,6 +9,7 @@ import java.util.List;
 public class Territory {
     static Action currentAction = Action.DEPLOY;
     static Player currentPlayer = null;
+    static boolean clickedWhilePlacing = false;
     String name;
     Player controlledBy = null;
     Continent continent;
@@ -55,10 +56,15 @@ public class Territory {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (currentPlayer != null && currentAction == Action.DEPLOY){
-                    troops += 1;
-                    area.count = troops;
-                    area.setText(name + " "+ String.valueOf(area.count));
-                    setOwnership(currentPlayer);
+                    if (controlledBy == null){
+                        setOwnership(currentPlayer);
+                    }
+                    if(controlledBy == currentPlayer){
+                        troops += 1;
+                        area.count = troops;
+                        area.setText(name + " "+ String.valueOf(area.count));
+                        clickedWhilePlacing = true;
+                    }
                 }
             }
 

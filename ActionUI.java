@@ -8,11 +8,12 @@ import java.util.List;
 public class ActionUI extends JPanel {
     static int turn = 0;
     static List<Player> playerList = new ArrayList<>();
-    JLabel turnTracker = new JLabel();
+    static JLabel turnTracker = new JLabel();
     JLabel actionTracker = new JLabel();
     JLabel troopCounter = new JLabel();
     JButton cycleAction = new JButton("Cycle Action");
     static Action action = Action.DEPLOY;
+    static Phase phase = Phase.START;
 
     ActionUI(List<Player> list){
         setBackground(new Color(210, 180, 140));
@@ -29,16 +30,19 @@ public class ActionUI extends JPanel {
         cycleAction.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (action == Action.DEPLOY){
-                    action = Action.ATTACK;
-                } else if (action == Action.ATTACK){
-                    action = action.FORTIFY;
-                } else {
-                    action = Action.DEPLOY;
+                if (phase == Phase.PLAYING){
+                    if (action == Action.DEPLOY){
+                        action = Action.ATTACK;
+                    } else if (action == Action.ATTACK){
+                        action = action.FORTIFY;
+                    } else {
+                        action = Action.DEPLOY;
+                        nextPlayer();
+                    }
+                } else if (phase == Phase.PLACING){
                     nextPlayer();
                 }
                 actionTracker.setText(action.name());
-                turnTracker.setText(playerList.get(turn).team.name());
                 troopCounter.setText("Troops: " + playerList.get(turn).totalTroops);
             }
 
@@ -63,11 +67,12 @@ public class ActionUI extends JPanel {
             }
         });
     }
-    void nextPlayer(){
+    static void nextPlayer(){
         if (turn + 1 < playerList.size()){
             turn += 1;
         } else {
             turn = 0;
         }
+        turnTracker.setText(playerList.get(turn).team.name());
     }
 }

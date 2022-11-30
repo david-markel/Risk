@@ -59,7 +59,7 @@ public class Driver {
         // init all territories, manually set id, adjacencies, x, y
         Territory alaska = new Territory("Alaska", Continent.NA, 1, new int[]{}, 20, 77);
         Territory nwTerritory = new Territory("N.W. Territory", Continent.NA, 2, new int[]{1, 3}, 84, 77);
-        Territory alberta = new Territory("Alberta", Continent.NA, 3, new int[]{1, 2}, 93, 113);
+        Territory alberta = new Territory("Alberta", Continent.NA, 3, new int[]{}, 93, 113);
         Territory wUS = new Territory("W. US", Continent.NA, 4, new int[]{}, 98, 165);
         Territory cAmerica = new Territory("C. America", Continent.NA, 5, new int[]{}, 42, 247);
         Territory eUS = new Territory("E. US", Continent.NA, 6, new int[]{}, 164, 177);
@@ -149,6 +149,7 @@ public class Driver {
                 Player red = new Player(Teams.RED);
                 Player blue = new Player(Teams.BLUE);
                 if (PlayersButton.players == 3){
+                    initialTroops = 35;
                     Player green = new Player(Teams.GREEN);
                 } else if (PlayersButton.players == 4){
                     initialTroops = 30;

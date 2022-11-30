@@ -19,6 +19,7 @@ public class Player {
         int result = 0;
         List<Continent> continentList = Arrays.asList(Continent.NA, Continent.SA,
                 Continent.AFRICA, Continent.EUROPE, Continent.ASIA, Continent.AUSTRALIA);
+
         for (int j = 0; j < continentList.size();j++){
             boolean getReward = true;
             Continent continent = continentList.get(j);

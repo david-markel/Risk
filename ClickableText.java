@@ -6,10 +6,7 @@ import java.awt.event.MouseListener;
 
 public class ClickableText extends JLabel {
     int count;
-    boolean entered = false;
     String name;
-
-    Dimension dimension;
     int x;
     int y;
 
@@ -19,39 +16,6 @@ public class ClickableText extends JLabel {
         x = X;
         y = Y;
         setText(name + " "+ String.valueOf(count));
-        Border border = BorderFactory.createLineBorder(Color.BLACK);
-//        setBackground(Color.WHITE);
-//        setOpaque(true);
         setBounds(x, y, name.length() * 10, 20);
-        addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (entered){
-                    count += 1;
-                    setText(name + " "+ String.valueOf(count));
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                entered = true;
-                setBorder(border);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                entered = false;
-                setBorder(null);
-            }
-        });
     }
 }

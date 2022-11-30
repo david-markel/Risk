@@ -133,51 +133,26 @@ public class Driver {
         StartButton startButton = new StartButton();
         mapPane.add(startButton, zIndex);
 
-//        JLabel turnTracker = new JLabel();
-//        turnTracker.setBounds(760, 0, 100, 60);
-//
-//        JLabel actionTracker = new JLabel();
-//        actionTracker.setBounds(860, 0, 100, 60);
-
-//        JButton cycleAction = new JButton("Cycle Action");
-
         ActionUI actionUI;
+
+        Player red = new Player(Teams.RED);
+        Player blue = new Player(Teams.BLUE);
+        Player green = new Player(Teams.GREEN);
+        Player yellow = new Player(Teams.YELLOW);
+        Player orange = new Player(Teams.ORANGE);
+        Player brown = new Player(Teams.BROWN);
+
         while (run){
+            if (ActionUI.playerList.size() > 0){
+                Territory.currentPlayer = ActionUI.playerList.get(ActionUI.turn);
+            }
             if (StartButton.hasStarted && !setTeams){
                 setTeams = true;
-                if (PlayersButton.players == 3){
-                    Player red = new Player(Teams.RED, 35);
-                    Player blue = new Player(Teams.BLUE, 35);
-                    Player green = new Player(Teams.GREEN, 35);
-                } else if (PlayersButton.players == 4){
-                    Player red = new Player(Teams.RED, 30);
-                    Player blue = new Player(Teams.BLUE, 30);
-                    Player green = new Player(Teams.GREEN, 30);
-                    Player yellow = new Player(Teams.YELLOW, 30);
-                } else if (PlayersButton.players == 5){
-                    Player red = new Player(Teams.RED, 25);
-                    Player blue = new Player(Teams.BLUE,25 );
-                    Player green = new Player(Teams.GREEN, 25);
-                    Player yellow = new Player(Teams.YELLOW, 25);
-                    Player orange = new Player(Teams.ORANGE, 25);
-                }  if (PlayersButton.players == 6){
-                    Player red = new Player(Teams.RED, 20);
-                    Player blue = new Player(Teams.BLUE,20 );
-                    Player green = new Player(Teams.GREEN, 20);
-                    Player yellow = new Player(Teams.YELLOW, 20);
-                    Player orange = new Player(Teams.ORANGE, 20);
-                    Player brown = new Player(Teams.BROWN, 20);
-                }
                 mapPane.remove(playersButton);
                 mapPane.remove(startButton);
                 actionUI = new ActionUI(Player.playerList);
                 actionUI.setBounds(760, 0, 100, 100);
                 mapPane.add(actionUI, zIndex);
-//                turnTracker.setText(Player.playerList.get(0).team.name());
-//                mapPane.add(turnTracker, Integer.valueOf(0));
-//                actionTracker.setText(Action.DEPLOY.name());
-//                mapPane.add(actionTracker, Integer.valueOf(0));
-
             }
             mapPane.repaint();
         }

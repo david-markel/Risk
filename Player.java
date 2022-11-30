@@ -8,9 +8,9 @@ public class Player {
 
     static List<Player> playerList = new ArrayList<>();
 
-    Player(Teams t, int tt){
+    Player(Teams t){
         team = t;
-        totalTroops = tt;
+        totalTroops = 0;
         playerTerritories = new ArrayList<>();
         playerList.add(this);
     }

@@ -143,6 +143,7 @@ public class Driver {
             if (ActionUI.playerList.size() > 0){
                 Territory.currentPlayer = ActionUI.playerList.get(ActionUI.turn);
                 Territory.currentAction = ActionUI.action;
+                Territory.currentPhase = ActionUI.phase;
             }
             if (StartButton.hasStarted && currentPhase == Phase.START){
                 currentPhase = Phase.PLACING;
@@ -170,7 +171,7 @@ public class Driver {
                 }
                 mapPane.remove(playersButton);
                 mapPane.remove(startButton);
-                actionUI = new ActionUI(Player.playerList, 3); // put in initialTroops, just 5 for testing
+                actionUI = new ActionUI(Player.playerList, initialTroops); // put in initialTroops, just 5 for testing
                 actionUI.setBounds(760, 0, 100, 100);
                 mapPane.add(actionUI, zIndex);
             }

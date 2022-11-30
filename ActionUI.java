@@ -9,12 +9,13 @@ public class ActionUI extends JPanel {
     static int turn = 0;
     static List<Player> playerList = new ArrayList<>();
     static JLabel turnTracker = new JLabel();
-    JLabel actionTracker = new JLabel();
+    static JLabel actionTracker = new JLabel();
     static JLabel troopCounter = new JLabel();
     static JButton cycleAction = new JButton("Cycle Action");
     static Action action = Action.DEPLOY;
     static Phase phase = Phase.START;
     static float placedTroops;
+    static boolean receivedTroops = false;
 
     ActionUI(){};
 
@@ -34,14 +35,7 @@ public class ActionUI extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (phase == Phase.PLAYING){
-                    if (action == Action.DEPLOY){
-                        action = Action.ATTACK;
-                    } else if (action == Action.ATTACK){
-                        action = action.FORTIFY;
-                    } else {
-                        action = Action.DEPLOY;
-                        nextPlayer();
-                    }
+                    toggleAction();
                 } else if (phase == Phase.PLACING){
                     nextPlayer();
                 }
@@ -69,6 +63,17 @@ public class ActionUI extends JPanel {
             }
         });
     }
+    static void toggleAction(){
+        if (action == Action.DEPLOY){
+            action = Action.ATTACK;
+        } else if (action == Action.ATTACK){
+            action = action.FORTIFY;
+        } else {
+            action = Action.DEPLOY;
+            nextPlayer();
+        }
+        actionTracker.setText(action.name());
+    }
     static void nextPlayer(){
         if (turn + 1 < playerList.size()){
             turn += 1;
@@ -77,5 +82,17 @@ public class ActionUI extends JPanel {
         }
         troopCounter.setText("Troops: " + Math.round(placedTroops / playerList.size()));
         turnTracker.setText(playerList.get(turn).team.name());
+    }
+
+    static void getIncomingTroops(){
+        if (phase == Phase.PLAYING){
+            Player currentPlayer = playerList.get(turn);
+            int calc = (Math.floorDiv (currentPlayer.playerTerritories.size(), 3))
+                    + currentPlayer.calcContinentRewards();
+            placedTroops = calc > 3 ? calc : 3;
+            troopCounter.setText("Troops: " + (int)placedTroops);
+        } else {
+            return;
+        }
     }
 }

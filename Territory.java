@@ -104,5 +104,8 @@ public class Territory {
             area.setBackground(new Color(153, 102, 0));
         }
         area.setOpaque(true);
+        if (!player.playerTerritories.contains(this)){
+            player.playerTerritories.add(this);
+        }
     }
 }

@@ -8,15 +8,8 @@ import java.util.List;
 public class Driver {
     static Integer zIndex = 1;
     public static void main(String[] args) {
-        
-        //Continent Bonuses
-        ContinentArmies africa = new ContinentArmies(Continent.AFRICA, 3);
-        ContinentArmies asia = new ContinentArmies(Continent.ASIA, 7);
-        ContinentArmies na = new ContinentArmies(Continent.NA, 5);
-        ContinentArmies sa = new ContinentArmies(Continent.SA, 2);
-        ContinentArmies europe = new ContinentArmies(Continent.EUROPE, 5);
-        ContinentArmies australia = new ContinentArmies(Continent.AUSTRALIA, 2);
 
+        // jFrame holds mapPane, otherwise everything is added to mapPane
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Risk");
@@ -24,6 +17,7 @@ public class Driver {
 
         JLayeredPane mapPane = new JLayeredPane();
         mapPane.setBounds(0, 0, 1024, 600);
+        // mapListener can be removed at final, just a helper to get x y cords when clicking on map
         mapPane.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -55,15 +49,15 @@ public class Driver {
             }
         });
 
-        //Get Map
+        // mapPane is layered container, 0 layer has mapPane, rest are on layer 1 over map
+        // keep in mind there is essentially no grid layout, so everything is set with setBounds for x, y
         ImagePane map = new ImagePane("Risk_board.png", 0, 0);
         map.setOpaque(true);
         map.setBounds(0, 0, 756, 520);
         mapPane.add(map, Integer.valueOf(0));
 
-        //List of territories
-        
-        Territory alaska = new Territory("Alaska", Continent.NA, 1, new int[]{2, 3, 100}, 20, 77);
+        // init all territories, manually set id, adjacencies, x, y
+        Territory alaska = new Territory("Alaska", Continent.NA, 1, new int[]{}, 20, 77);
         Territory nwTerritory = new Territory("N.W. Territory", Continent.NA, 2, new int[]{1, 3}, 84, 77);
         Territory alberta = new Territory("Alberta", Continent.NA, 3, new int[]{1, 2}, 93, 113);
         Territory wUS = new Territory("W. US", Continent.NA, 4, new int[]{}, 98, 165);
@@ -72,6 +66,7 @@ public class Driver {
         Territory ontario = new Territory("Ontario", Continent.NA, 7, new int[]{}, 150, 131);
         Territory quebec = new Territory("Quebec", Continent.NA, 8, new int[]{}, 209, 136);
         Territory greenland = new Territory("Greenland", Continent.NA, 9, new int[]{}, 236, 44);
+        // in constructor, automatically added to continent list, so loop through it to add to mapPane
         for (int i = 0; i < Territory.naList.size(); i++){
             mapPane.add(Territory.naList.get(i).area, zIndex);
         }
@@ -131,14 +126,14 @@ public class Driver {
         frame.setVisible(true);
 
         boolean run = true;
-        int turn = 0;
 
+        // correspond to start phase, or when deciding on number of players
         PlayersButton playersButton = new PlayersButton();
         mapPane.add(playersButton, zIndex);
-
         StartButton startButton = new StartButton();
         mapPane.add(startButton, zIndex);
 
+        // used for game logic like deploying, attacking, and fortifying in both placing and playing phase
         ActionUI actionUI = new ActionUI();
         Phase currentPhase = Phase.START;
         int initialTroops = 0;
@@ -151,28 +146,21 @@ public class Driver {
             if (StartButton.hasStarted && currentPhase == Phase.START){
                 currentPhase = Phase.PLACING;
                 ActionUI.phase = currentPhase;
+                Player red = new Player(Teams.RED);
+                Player blue = new Player(Teams.BLUE);
                 if (PlayersButton.players == 3){
-                    initialTroops = 35;
-                    Player red = new Player(Teams.RED);
-                    Player blue = new Player(Teams.BLUE);
                     Player green = new Player(Teams.GREEN);
                 } else if (PlayersButton.players == 4){
                     initialTroops = 30;
-                    Player red = new Player(Teams.RED);
-                    Player blue = new Player(Teams.BLUE);
                     Player green = new Player(Teams.GREEN);
                     Player yellow = new Player(Teams.YELLOW);
                 } else if (PlayersButton.players == 5){
                     initialTroops = 25;
-                    Player red = new Player(Teams.RED);
-                    Player blue = new Player(Teams.BLUE );
                     Player green = new Player(Teams.GREEN);
                     Player yellow = new Player(Teams.YELLOW);
                     Player orange = new Player(Teams.ORANGE);
                 }  if (PlayersButton.players == 6){
                     initialTroops = 20;
-                    Player red = new Player(Teams.RED);
-                    Player blue = new Player(Teams.BLUE );
                     Player green = new Player(Teams.GREEN);
                     Player yellow = new Player(Teams.YELLOW);
                     Player orange = new Player(Teams.ORANGE);
@@ -180,25 +168,47 @@ public class Driver {
                 }
                 mapPane.remove(playersButton);
                 mapPane.remove(startButton);
-                actionUI = new ActionUI(Player.playerList, 5);
+                actionUI = new ActionUI(Player.playerList, 3); // put in initialTroops, just 5 for testing
                 actionUI.setBounds(760, 0, 100, 100);
                 mapPane.add(actionUI, zIndex);
             }
             if (currentPhase == Phase.PLACING){
                 if (Territory.clickedWhilePlacing){
+                    // a territory has been clicked signal actionUI nextPlayer
                     Territory.clickedWhilePlacing = false;
                     ActionUI.nextPlayer();
                     ActionUI.placedTroops -= 1;
                 }
                 if (ActionUI.placedTroops <= 0){
+                    // placed all troops
                     currentPhase = Phase.PLAYING;
                     ActionUI.phase = currentPhase;
                     actionUI.add(ActionUI.cycleAction);
                 }
             }
             if (currentPhase == Phase.PLAYING){
+                if (ActionUI.action == Action.DEPLOY){
+                    if (!ActionUI.receivedTroops){
+                        ActionUI.getIncomingTroops();
+                        ActionUI.receivedTroops = true;
+                    }
+                    if (Territory.clickedWhilePlacing){
+                        Territory.clickedWhilePlacing = false;
+                        ActionUI.placedTroops -= 1;
+                        ActionUI.troopCounter.setText("Troops: " + (int)ActionUI.placedTroops);
+                    }
+                    if (ActionUI.placedTroops <= 0){
+                        ActionUI.toggleAction();
+                    }
+                } else if (ActionUI.action == Action.ATTACK){
 
+                } else if (ActionUI.action == Action.FORTIFY){
+                    // skip for now
+                    ActionUI.toggleAction();
+                    ActionUI.receivedTroops = false;
+                }
             }
+            // constantly refresh components
             mapPane.repaint();
         }
     }

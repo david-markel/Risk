@@ -108,4 +108,10 @@ public class Territory {
             player.playerTerritories.add(this);
         }
     }
+    //calculate legal fortification targets
+    int[] legalFortify() {
+        List<int> targets = new ArrayList<int>();
+
+        return targets;
+    }
 }

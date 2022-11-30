@@ -132,8 +132,9 @@ public class Driver {
         StartButton startButton = new StartButton();
         mapPane.add(startButton, zIndex);
 
-        ActionUI actionUI;
+        ActionUI actionUI = new ActionUI();
         Phase currentPhase = Phase.START;
+        int initialTroops = 0;
 
         while (run){
             if (ActionUI.playerList.size() > 0){
@@ -144,21 +145,25 @@ public class Driver {
                 currentPhase = Phase.PLACING;
                 ActionUI.phase = currentPhase;
                 if (PlayersButton.players == 3){
+                    initialTroops = 35;
                     Player red = new Player(Teams.RED);
                     Player blue = new Player(Teams.BLUE);
                     Player green = new Player(Teams.GREEN);
                 } else if (PlayersButton.players == 4){
+                    initialTroops = 30;
                     Player red = new Player(Teams.RED);
                     Player blue = new Player(Teams.BLUE);
                     Player green = new Player(Teams.GREEN);
                     Player yellow = new Player(Teams.YELLOW);
                 } else if (PlayersButton.players == 5){
+                    initialTroops = 25;
                     Player red = new Player(Teams.RED);
                     Player blue = new Player(Teams.BLUE );
                     Player green = new Player(Teams.GREEN);
                     Player yellow = new Player(Teams.YELLOW);
                     Player orange = new Player(Teams.ORANGE);
                 }  if (PlayersButton.players == 6){
+                    initialTroops = 20;
                     Player red = new Player(Teams.RED);
                     Player blue = new Player(Teams.BLUE );
                     Player green = new Player(Teams.GREEN);
@@ -168,7 +173,7 @@ public class Driver {
                 }
                 mapPane.remove(playersButton);
                 mapPane.remove(startButton);
-                actionUI = new ActionUI(Player.playerList);
+                actionUI = new ActionUI(Player.playerList, 5);
                 actionUI.setBounds(760, 0, 100, 100);
                 mapPane.add(actionUI, zIndex);
             }
@@ -176,7 +181,16 @@ public class Driver {
                 if (Territory.clickedWhilePlacing){
                     Territory.clickedWhilePlacing = false;
                     ActionUI.nextPlayer();
+                    ActionUI.placedTroops -= 1;
                 }
+                if (ActionUI.placedTroops <= 0){
+                    currentPhase = Phase.PLAYING;
+                    ActionUI.phase = currentPhase;
+                    actionUI.add(ActionUI.cycleAction);
+                }
+            }
+            if (currentPhase == Phase.PLAYING){
+
             }
             mapPane.repaint();
         }

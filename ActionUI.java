@@ -10,21 +10,24 @@ public class ActionUI extends JPanel {
     static List<Player> playerList = new ArrayList<>();
     static JLabel turnTracker = new JLabel();
     JLabel actionTracker = new JLabel();
-    JLabel troopCounter = new JLabel();
-    JButton cycleAction = new JButton("Cycle Action");
+    static JLabel troopCounter = new JLabel();
+    static JButton cycleAction = new JButton("Cycle Action");
     static Action action = Action.DEPLOY;
     static Phase phase = Phase.START;
+    static float placedTroops;
 
-    ActionUI(List<Player> list){
+    ActionUI(){};
+
+    ActionUI(List<Player> list, int troops){
         setBackground(new Color(210, 180, 140));
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         playerList = list;
+        placedTroops = troops * playerList.size();
         turnTracker.setText(Player.playerList.get(0).team.name());
         actionTracker.setText(action.name());
-        troopCounter.setText("Troops: " + playerList.get(turn).totalTroops);
+        troopCounter.setText("Troops: " + Math.round(placedTroops / playerList.size()));
         add(turnTracker);
         add(actionTracker);
-        add(cycleAction);
         add(troopCounter);
 
         cycleAction.addMouseListener(new MouseListener() {
@@ -43,7 +46,6 @@ public class ActionUI extends JPanel {
                     nextPlayer();
                 }
                 actionTracker.setText(action.name());
-                troopCounter.setText("Troops: " + playerList.get(turn).totalTroops);
             }
 
             @Override
@@ -73,6 +75,7 @@ public class ActionUI extends JPanel {
         } else {
             turn = 0;
         }
+        troopCounter.setText("Troops: " + Math.round(placedTroops / playerList.size()));
         turnTracker.setText(playerList.get(turn).team.name());
     }
 }

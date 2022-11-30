@@ -8,6 +8,8 @@ import java.util.List;
 public class Driver {
     static Integer zIndex = 1;
     public static void main(String[] args) {
+        
+        //Continent Bonuses
         ContinentArmies africa = new ContinentArmies(Continent.AFRICA, 3);
         ContinentArmies asia = new ContinentArmies(Continent.ASIA, 7);
         ContinentArmies na = new ContinentArmies(Continent.NA, 5);
@@ -53,11 +55,14 @@ public class Driver {
             }
         });
 
+        //Get Map
         ImagePane map = new ImagePane("Risk_board.png", 0, 0);
         map.setOpaque(true);
         map.setBounds(0, 0, 756, 520);
         mapPane.add(map, Integer.valueOf(0));
 
+        //List of territories
+        
         Territory alaska = new Territory("Alaska", Continent.NA, 1, new int[]{2, 3, 100}, 20, 77);
         Territory nwTerritory = new Territory("N.W. Territory", Continent.NA, 2, new int[]{1, 3}, 84, 77);
         Territory alberta = new Territory("Alberta", Continent.NA, 3, new int[]{1, 2}, 93, 113);
@@ -70,6 +75,7 @@ public class Driver {
         for (int i = 0; i < Territory.naList.size(); i++){
             mapPane.add(Territory.naList.get(i).area, zIndex);
         }
+
         Territory venezuela = new Territory("Venezuela", Continent.SA, 10, new int[]{}, 158, 276);
         Territory peru = new Territory("Peru", Continent.SA, 11, new int[]{}, 143, 333);
         Territory argentina = new Territory("Argentina", Continent.SA, 12, new int[]{}, 178, 405);
@@ -77,6 +83,7 @@ public class Driver {
         for (int i = 0; i < Territory.saList.size(); i++){
             mapPane.add(Territory.saList.get(i).area, zIndex);
         }
+        
         Territory iceland = new Territory("Iceland", Continent.EUROPE, 14, new int[]{}, 296, 75);
         Territory greatBritain = new Territory("Great Britain", Continent.EUROPE, 15, new int[]{}, 288, 159);
         Territory wEurope = new Territory("W. Europe", Continent.EUROPE, 16, new int[]{}, 302, 228);

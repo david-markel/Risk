@@ -58,18 +58,6 @@ public class Driver {
         map.setBounds(0, 0, 756, 520);
         mapPane.add(map, Integer.valueOf(0));
 
-        PlayersButton playersButton = new PlayersButton();
-        mapPane.add(playersButton, zIndex);
-
-        StartButton startButton = new StartButton();
-        mapPane.add(startButton, zIndex);
-
-//        JLabel example = new JLabel("howdy");
-//        example.setOpaque(true);
-//        example.setBackground(Color.RED);
-//        example.setBounds(100, 100, 200, 200);
-//        mapPane.add(example, zIndex);
-
         Territory alaska = new Territory("Alaska", Continent.NA, 1, new int[]{2, 3, 100}, 20, 77);
         Territory nwTerritory = new Territory("N.W. Territory", Continent.NA, 2, new int[]{1, 3}, 84, 77);
         Territory alberta = new Territory("Alberta", Continent.NA, 3, new int[]{1, 2}, 93, 113);
@@ -139,12 +127,21 @@ public class Driver {
         boolean setTeams = false;
         int turn = 0;
 
-        JLabel turnTracker = new JLabel();
-        turnTracker.setBounds(760, 0, 100, 60);
+        PlayersButton playersButton = new PlayersButton();
+        mapPane.add(playersButton, zIndex);
 
-        JLabel actionTracker = new JLabel();
-        actionTracker.setBounds(860, 0, 100, 60);
+        StartButton startButton = new StartButton();
+        mapPane.add(startButton, zIndex);
 
+//        JLabel turnTracker = new JLabel();
+//        turnTracker.setBounds(760, 0, 100, 60);
+//
+//        JLabel actionTracker = new JLabel();
+//        actionTracker.setBounds(860, 0, 100, 60);
+
+//        JButton cycleAction = new JButton("Cycle Action");
+
+        ActionUI actionUI;
         while (run){
             if (StartButton.hasStarted && !setTeams){
                 setTeams = true;
@@ -173,10 +170,13 @@ public class Driver {
                 }
                 mapPane.remove(playersButton);
                 mapPane.remove(startButton);
-                turnTracker.setText(Player.playerList.get(0).team.name());
-                mapPane.add(turnTracker, Integer.valueOf(0));
-                actionTracker.setText(Action.DEPLOY.name());
-                mapPane.add(actionTracker, Integer.valueOf(0));
+                actionUI = new ActionUI(Player.playerList);
+                actionUI.setBounds(760, 0, 100, 100);
+                mapPane.add(actionUI, zIndex);
+//                turnTracker.setText(Player.playerList.get(0).team.name());
+//                mapPane.add(turnTracker, Integer.valueOf(0));
+//                actionTracker.setText(Action.DEPLOY.name());
+//                mapPane.add(actionTracker, Integer.valueOf(0));
 
             }
             mapPane.repaint();

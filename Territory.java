@@ -9,6 +9,7 @@ import java.util.List;
 public class Territory {
     static Action currentAction = Action.DEPLOY;
     static Player currentPlayer = null;
+    static Phase currentPhase = Phase.START;
     static boolean clickedWhilePlacing = false;
     String name;
     Player controlledBy = null;
@@ -22,6 +23,7 @@ public class Territory {
     static List<Territory> africaList = new ArrayList();
     static List<Territory> asiaList = new ArrayList();
     static List<Territory> australiaList = new ArrayList();
+    static List<Territory> masterList = new ArrayList<>();
     ClickableText area;
 
     Territory(String n, Continent c, int i, int[] at, int x, int y){
@@ -52,12 +54,21 @@ public class Territory {
         if (continent == Continent.AUSTRALIA){
             australiaList.add(this);
         }
+        masterList.add(this);
         area.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (currentPlayer != null && currentAction == Action.DEPLOY){
                     if (controlledBy == null){
                         setOwnership(currentPlayer);
+                    }
+                    // if placing and territories left
+                    if (troops > 0 && currentPhase == Phase.PLACING){
+                        for (int i = 0; i < masterList.size(); i++){
+                            if (masterList.get(i).controlledBy == null){
+                                return;
+                            }
+                        }
                     }
                     if(controlledBy == currentPlayer){
                         troops += 1;

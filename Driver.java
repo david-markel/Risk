@@ -113,10 +113,10 @@ public class Driver {
         for (int i = 0; i < Territory.asiaList.size(); i++){
             mapPane.add(Territory.asiaList.get(i).area, zIndex);
         }
-        Territory indonesia = new Territory("Indonesia", Continent.AUSTRALIA, 14, new int[]{}, 592, 359);
-        Territory wAustralia = new Territory("W. Australia", Continent.AUSTRALIA, 15, new int[]{}, 627, 433);
-        Territory nGuinea = new Territory("N. Guinea", Continent.AUSTRALIA, 16, new int[]{}, 673, 333);
-        Territory eAustralia = new Territory("E. Australia", Continent.AUSTRALIA, 17, new int[]{}, 686, 405);
+        Territory indonesia = new Territory("Indonesia", Continent.AUSTRALIA, 21, new int[]{}, 592, 359);
+        Territory wAustralia = new Territory("W. Australia", Continent.AUSTRALIA, 22, new int[]{}, 627, 433);
+        Territory nGuinea = new Territory("N. Guinea", Continent.AUSTRALIA, 23, new int[]{}, 673, 333);
+        Territory eAustralia = new Territory("E. Australia", Continent.AUSTRALIA, 24, new int[]{}, 686, 405);
         for (int i = 0; i < Territory.australiaList.size(); i++){
             mapPane.add(Territory.australiaList.get(i).area, zIndex);
         }
@@ -170,8 +170,8 @@ public class Driver {
                 }
                 mapPane.remove(playersButton);
                 mapPane.remove(startButton);
-                actionUI = new ActionUI(Player.playerList, initialTroops); // put in initialTroops, just 5 for testing
-                actionUI.setBounds(760, 0, 100, 100);
+                actionUI = new ActionUI(Player.playerList, 3); // put in initialTroops, just 5 for testing
+                actionUI.setBounds(760, 0, 150, 200);
                 mapPane.add(actionUI, zIndex);
             }
             if (currentPhase == Phase.PLACING){

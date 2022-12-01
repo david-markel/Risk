@@ -6,17 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActionUI extends JPanel {
-    static int turn = 0;
-    static List<Player> playerList = new ArrayList<>();
+    static int turn = 0; // basically an index for list
+    static List<Player> playerList = new ArrayList<>(); //gets player list from player class
     static JLabel turnTracker = new JLabel();
     static JLabel actionTracker = new JLabel();
     static JLabel troopCounter = new JLabel();
     static JButton cycleAction = new JButton("Cycle Action");
-    static Action action = Action.DEPLOY;
+    static Action action = Action.DEPLOY; // used in multiple classes, all same object
     static Phase phase = Phase.START;
     static float placedTroops;
     static boolean receivedTroops = false;
-
+    TerritoryButton selectedTerritory = new TerritoryButton("Selected");
+    TerritoryButton targetedTerritory = new TerritoryButton("Targeted");
     ActionUI(){};
 
     ActionUI(List<Player> list, int troops){
@@ -94,5 +95,51 @@ public class ActionUI extends JPanel {
         } else {
             return;
         }
+    }
+    public class TerritoryButton extends JButton {
+        String name;
+        Territory territory;
+        static boolean selectedOn = false;
+        static boolean targetedOn = false;
+        TerritoryButton(String n){
+            super(n + ": ");
+            name = n;
+            addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (name.equals("Selected")){
+                        selectedOn = true;
+                        targetedOn = false;
+                    }
+                    if (name.equals("Targeted")){
+                        targetedOn = true;
+                        selectedOn = false;
+                    }
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
+        }
+    }
+    void addTerritoryButtons(){
+
     }
 }

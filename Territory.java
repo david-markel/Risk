@@ -119,4 +119,10 @@ public class Territory {
             player.playerTerritories.add(this);
         }
     }
+    //calculate legal fortification targets
+    int[] legalFortify() {
+        int[] targets = new int[41];
+
+        return targets;
+    }
 }

@@ -98,25 +98,25 @@ public class Driver {
         for (int i = 0; i < Territory.africaList.size(); i++){
             mapPane.add(Territory.africaList.get(i).area, zIndex);
         }
-        Territory middleEast = new Territory("Middle East", Continent.ASIA, 14, new int[]{}, 438, 246);
-        Territory ural = new Territory("Ural", Continent.ASIA, 15, new int[]{}, 498, 107);
-        Territory afghanistan = new Territory("Afghanistan", Continent.ASIA, 16, new int[]{}, 480, 180);
-        Territory india = new Territory("India", Continent.ASIA, 17, new int[]{}, 520, 245);
-        Territory siberia = new Territory("Siberia", Continent.ASIA, 18, new int[]{}, 525, 69);
-        Territory china = new Territory("China", Continent.ASIA, 19, new int[]{}, 565, 219);
-        Territory siam = new Territory("Siam", Continent.ASIA, 20, new int[]{}, 596, 280);
-        Territory yakutsk = new Territory("Yakutsk", Continent.ASIA, 16, new int[]{}, 594, 62);
-        Territory irkutsk = new Territory("Irkutsk", Continent.ASIA, 17, new int[]{}, 584, 134);
-        Territory mongolia = new Territory("Mongolia", Continent.ASIA, 18, new int[]{}, 595, 171);
-        Territory kamchatka = new Territory("Kamchatka", Continent.ASIA, 19, new int[]{}, 648, 67);
-        Territory japan = new Territory("Japan", Continent.ASIA, 20, new int[]{}, 676, 180);
+        Territory middleEast = new Territory("Middle East", Continent.ASIA, 27, new int[]{}, 438, 246);
+        Territory ural = new Territory("Ural", Continent.ASIA, 28, new int[]{}, 498, 107);
+        Territory afghanistan = new Territory("Afghanistan", Continent.ASIA, 29, new int[]{}, 480, 180);
+        Territory india = new Territory("India", Continent.ASIA, 30, new int[]{}, 520, 245);
+        Territory siberia = new Territory("Siberia", Continent.ASIA, 31, new int[]{}, 525, 69);
+        Territory china = new Territory("China", Continent.ASIA, 32, new int[]{}, 565, 219);
+        Territory siam = new Territory("Siam", Continent.ASIA, 33, new int[]{}, 596, 280);
+        Territory yakutsk = new Territory("Yakutsk", Continent.ASIA, 34, new int[]{}, 594, 62);
+        Territory irkutsk = new Territory("Irkutsk", Continent.ASIA, 35, new int[]{}, 584, 134);
+        Territory mongolia = new Territory("Mongolia", Continent.ASIA, 36, new int[]{}, 595, 171);
+        Territory kamchatka = new Territory("Kamchatka", Continent.ASIA, 37, new int[]{}, 648, 67);
+        Territory japan = new Territory("Japan", Continent.ASIA, 38, new int[]{}, 676, 180);
         for (int i = 0; i < Territory.asiaList.size(); i++){
             mapPane.add(Territory.asiaList.get(i).area, zIndex);
         }
-        Territory indonesia = new Territory("Indonesia", Continent.AUSTRALIA, 21, new int[]{}, 592, 359);
-        Territory wAustralia = new Territory("W. Australia", Continent.AUSTRALIA, 22, new int[]{}, 627, 433);
-        Territory nGuinea = new Territory("N. Guinea", Continent.AUSTRALIA, 23, new int[]{}, 673, 333);
-        Territory eAustralia = new Territory("E. Australia", Continent.AUSTRALIA, 24, new int[]{}, 686, 405);
+        Territory indonesia = new Territory("Indonesia", Continent.AUSTRALIA, 39, new int[]{}, 592, 359);
+        Territory wAustralia = new Territory("W. Australia", Continent.AUSTRALIA, 40, new int[]{}, 627, 433);
+        Territory nGuinea = new Territory("N. Guinea", Continent.AUSTRALIA, 41, new int[]{}, 673, 333);
+        Territory eAustralia = new Territory("E. Australia", Continent.AUSTRALIA, 42, new int[]{}, 686, 405);
         for (int i = 0; i < Territory.australiaList.size(); i++){
             mapPane.add(Territory.australiaList.get(i).area, zIndex);
         }
@@ -170,8 +170,8 @@ public class Driver {
                 }
                 mapPane.remove(playersButton);
                 mapPane.remove(startButton);
-                actionUI = new ActionUI(Player.playerList, 3); // put in initialTroops, just 5 for testing
-                actionUI.setBounds(760, 0, 150, 200);
+                actionUI = new ActionUI(Player.playerList, initialTroops); // put in initialTroops, just 5 for testing
+                actionUI.setBounds(760, 0, 100, 100);
                 mapPane.add(actionUI, zIndex);
             }
             if (currentPhase == Phase.PLACING){

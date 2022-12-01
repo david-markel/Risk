@@ -73,19 +73,34 @@ public class Territory {
                     }
                     if(controlledBy == currentPlayer){
                         troops += 1;
-                        area.count = troops;
-                        area.setText(name + " "+ String.valueOf(area.count));
+                        area.setText(name + " "+ String.valueOf(troops));
                         clickedWhilePlacing = true;
                     }
                 }
                 if (currentAction == Action.ATTACK){
+                    Territory temp = returnSelf();
                     if (ActionUI.TerritoryButton.selectedOn){
-                        ActionUI.selectedTerritory = returnSelf();
-                        ActionUI.selectedButton.setText("Selected: " + ActionUI.selectedTerritory.name);
+                        if (temp.controlledBy == currentPlayer){
+                            ActionUI.selectedTerritory = temp;
+                            ActionUI.selectedButton.setText("Selected: " + ActionUI.selectedTerritory.name);
+                        }
                     }
                     if (ActionUI.TerritoryButton.targetedOn){
-                        ActionUI.targetedTerritory = returnSelf();
-                        ActionUI.targetedButton.setText("Targeted: " + ActionUI.targetedTerritory.name);
+                        if (temp.controlledBy != currentPlayer){
+                            ActionUI.targetedTerritory = temp;
+                            ActionUI.targetedButton.setText("Targeted: " + ActionUI.targetedTerritory.name);
+                        }
+                    }
+                }
+                if (currentAction == Action.FORTIFY){
+                    Territory temp = returnSelf();
+                    if (ActionUI.TerritoryButton.selectedOn){
+                            ActionUI.selectedTerritory = temp;
+                            ActionUI.selectedButton.setText("Selected: " + ActionUI.selectedTerritory.name);
+                    }
+                    if (ActionUI.TerritoryButton.targetedOn){
+                            ActionUI.targetedTerritory = temp;
+                            ActionUI.targetedButton.setText("Targeted: " + ActionUI.targetedTerritory.name);
                     }
                 }
             }
@@ -116,22 +131,26 @@ public class Territory {
     }
     void setOwnership(Player player){
         controlledBy = player;
-        if (player.team == Teams.RED){
-            area.setBackground(Color.RED);
-        } else if (player.team == Teams.BLUE) {
-            area.setBackground(Color.BLUE);
-        } else if (player.team == Teams.GREEN) {
-            area.setBackground(Color.GREEN);
-        } else if (player.team == Teams.YELLOW) {
-            area.setBackground(Color.YELLOW);
-        } else if (player.team == Teams.ORANGE) {
-            area.setBackground(Color.ORANGE);
-        } else if (player.team == Teams.BROWN) {
-            area.setBackground(new Color(153, 102, 0));
-        }
+        area.setBackground(getColor(player.team));
         area.setOpaque(true);
         if (!player.playerTerritories.contains(this)){
             player.playerTerritories.add(this);
+        }
+    }
+
+    static Color getColor(Teams team){
+        if (team == Teams.RED){
+            return Color.RED;
+        } else if (team == Teams.BLUE) {
+            return Color.BLUE;
+        } else if (team == Teams.GREEN) {
+            return Color.GREEN;
+        } else if (team == Teams.YELLOW) {
+            return Color.YELLOW;
+        } else if (team == Teams.ORANGE) {
+            return Color.ORANGE;
+        } else {
+            return new Color(153, 102, 0);
         }
     }
     //calculate legal fortification targets

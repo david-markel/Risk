@@ -136,6 +136,7 @@ public class Driver {
         Phase currentPhase = Phase.START;
         int initialTroops = 0;
 
+        // TODO add component that displays text to user telling them what happened, errors, dice rolls, etc...
         while (run){
             if (ActionUI.playerList.size() > 0){
                 Territory.currentPlayer = ActionUI.playerList.get(ActionUI.turn);
@@ -168,8 +169,8 @@ public class Driver {
                 }
                 mapPane.remove(playersButton);
                 mapPane.remove(startButton);
-                actionUI = new ActionUI(Player.playerList, 3); // put in initialTroops
-                actionUI.setBounds(760, 0, 150, 150);
+                actionUI = new ActionUI(Player.playerList, 3); // TODO put in initialTroops
+                actionUI.setBounds(760, 0, 150, 200);
                 mapPane.add(actionUI, zIndex);
             }
             if (currentPhase == Phase.PLACING){
@@ -205,8 +206,11 @@ public class Driver {
 
                 } else if (ActionUI.action == Action.FORTIFY){
                     // skip for now
-                    ActionUI.toggleAction();
-                    ActionUI.receivedTroops = false;
+                    if (ActionUI.hasFortified){
+                        ActionUI.toggleAction();
+                        ActionUI.receivedTroops = false;
+                        ActionUI.hasFortified = true;
+                    }
                 }
             }
             // constantly refresh components

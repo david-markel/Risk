@@ -121,7 +121,7 @@ public class Territory {
     }
     //calculate legal fortification targets
     int[] legalFortify() {
-        List<int> targets = new ArrayList<int>();
+        int[] targets = new int[41];
 
         return targets;
     }

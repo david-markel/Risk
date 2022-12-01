@@ -25,6 +25,7 @@ public class Territory {
     static List<Territory> australiaList = new ArrayList();
     static List<Territory> masterList = new ArrayList<>();
     ClickableText area;
+    Territory(){};
 
     Territory(String n, Continent c, int i, int[] at, int x, int y){
         name = n;
@@ -77,6 +78,16 @@ public class Territory {
                         clickedWhilePlacing = true;
                     }
                 }
+                if (currentAction == Action.ATTACK){
+                    if (ActionUI.TerritoryButton.selectedOn){
+                        ActionUI.selectedTerritory = returnSelf();
+                        ActionUI.selectedButton.setText("Selected: " + ActionUI.selectedTerritory.name);
+                    }
+                    if (ActionUI.TerritoryButton.targetedOn){
+                        ActionUI.targetedTerritory = returnSelf();
+                        ActionUI.targetedButton.setText("Targeted: " + ActionUI.targetedTerritory.name);
+                    }
+                }
             }
 
             @Override
@@ -98,6 +109,10 @@ public class Territory {
                 area.setBorder(null);
             }
         });
+    }
+    Territory returnSelf(){
+        // seems dumb, but needed for inner mouseListener
+        return this;
     }
     void setOwnership(Player player){
         controlledBy = player;

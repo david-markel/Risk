@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +16,10 @@ public class ActionUI extends JPanel {
     static Phase phase = Phase.START;
     static float placedTroops;
     static boolean receivedTroops = false;
-    TerritoryButton selectedTerritory = new TerritoryButton("Selected");
-    TerritoryButton targetedTerritory = new TerritoryButton("Targeted");
+    static TerritoryButton selectedButton = new TerritoryButton("Selected");
+    static TerritoryButton targetedButton = new TerritoryButton("Targeted");
+    static Territory selectedTerritory = new Territory();
+    static Territory targetedTerritory = new Territory();
     ActionUI(){};
 
     ActionUI(List<Player> list, int troops){
@@ -32,35 +34,15 @@ public class ActionUI extends JPanel {
         add(actionTracker);
         add(troopCounter);
 
-        cycleAction.addMouseListener(new MouseListener() {
+        cycleAction.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 if (phase == Phase.PLAYING){
                     toggleAction();
                 } else if (phase == Phase.PLACING){
                     nextPlayer();
                 }
                 actionTracker.setText(action.name());
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
             }
         });
     }
@@ -96,17 +78,19 @@ public class ActionUI extends JPanel {
             return;
         }
     }
-    public class TerritoryButton extends JButton {
+    static public class TerritoryButton extends JButton {
         String name;
-        Territory territory;
+        static List<TerritoryButton> tButtonList = new ArrayList<>();
         static boolean selectedOn = false;
         static boolean targetedOn = false;
         TerritoryButton(String n){
             super(n + ": ");
             name = n;
-            addMouseListener(new MouseListener() {
+            tButtonList.add(this);
+            setOpaque(true);
+            addActionListener(new ActionListener() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void actionPerformed(ActionEvent e) {
                     if (name.equals("Selected")){
                         selectedOn = true;
                         targetedOn = false;
@@ -116,32 +100,12 @@ public class ActionUI extends JPanel {
                         selectedOn = false;
                     }
                 }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-
-                }
             });
         }
     }
     void addButtons(){
         add(cycleAction);
-        add(selectedTerritory);
-        add(targetedTerritory);
+        add(selectedButton);
+        add(targetedButton);
     }
 }

@@ -21,9 +21,7 @@ public class Driver {
         mapPane.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int x=e.getX();
-                int y=e.getY();
-                System.out.println("Cords of mouse helper " +x+","+y);//these co-ords are relative to the component
+                ;
             }
 
             @Override
@@ -170,7 +168,7 @@ public class Driver {
                 }
                 mapPane.remove(playersButton);
                 mapPane.remove(startButton);
-                actionUI = new ActionUI(Player.playerList, 3); // put in initialTroops, just 5 for testing
+                actionUI = new ActionUI(Player.playerList, 3); // put in initialTroops
                 actionUI.setBounds(760, 0, 150, 150);
                 mapPane.add(actionUI, zIndex);
             }
@@ -201,6 +199,7 @@ public class Driver {
                     }
                     if (ActionUI.placedTroops <= 0){
                         ActionUI.toggleAction();
+                        ActionUI.troopCounter.setText("");
                     }
                 } else if (ActionUI.action == Action.ATTACK){
 

@@ -1,8 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.*;
 import java.util.List;
 
 public class ActionUI extends JPanel {
@@ -16,8 +16,12 @@ public class ActionUI extends JPanel {
     static Phase phase = Phase.START;
     static float placedTroops;
     static boolean receivedTroops = false;
-    TerritoryButton selectedTerritory = new TerritoryButton("Selected");
-    TerritoryButton targetedTerritory = new TerritoryButton("Targeted");
+    static TerritoryButton selectedButton = new TerritoryButton("Selected");
+    static TerritoryButton targetedButton = new TerritoryButton("Targeted");
+    static Territory selectedTerritory = new Territory();
+    static Territory targetedTerritory = new Territory();
+
+    static boolean hasFortified = false;
     ActionUI(){};
 
     ActionUI(List<Player> list, int troops){
@@ -31,10 +35,9 @@ public class ActionUI extends JPanel {
         add(turnTracker);
         add(actionTracker);
         add(troopCounter);
-
-        cycleAction.addMouseListener(new MouseListener() {
+        cycleAction.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 if (phase == Phase.PLAYING){
                     toggleAction();
                 } else if (phase == Phase.PLACING){
@@ -42,33 +45,25 @@ public class ActionUI extends JPanel {
                 }
                 actionTracker.setText(action.name());
             }
-
+        });
+        AttackFortify.attackFortifyBtn.addActionListener(new ActionListener() {
             @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
+            public void actionPerformed(ActionEvent e) {
+                if (action == Action.ATTACK){
+                    AttackFortify.simulateBattle();
+                } else if (action == Action.FORTIFY){
+                    AttackFortify.fortify();
+                }
             }
         });
     }
     static void toggleAction(){
         if (action == Action.DEPLOY){
             action = Action.ATTACK;
+            AttackFortify.attackFortifyBtn.setText("Attack!");
         } else if (action == Action.ATTACK){
             action = action.FORTIFY;
+            AttackFortify.attackFortifyBtn.setText("Fortify");
         } else {
             action = Action.DEPLOY;
             nextPlayer();
@@ -96,17 +91,19 @@ public class ActionUI extends JPanel {
             return;
         }
     }
-    public class TerritoryButton extends JButton {
+    static public class TerritoryButton extends JButton {
         String name;
-        Territory territory;
+        static List<TerritoryButton> tButtonList = new ArrayList<>();
         static boolean selectedOn = false;
         static boolean targetedOn = false;
         TerritoryButton(String n){
             super(n + ": ");
             name = n;
-            addMouseListener(new MouseListener() {
+            tButtonList.add(this);
+            setOpaque(true);
+            addActionListener(new ActionListener() {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void actionPerformed(ActionEvent e) {
                     if (name.equals("Selected")){
                         selectedOn = true;
                         targetedOn = false;
@@ -116,30 +113,86 @@ public class ActionUI extends JPanel {
                         selectedOn = false;
                     }
                 }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-
-                }
             });
         }
     }
-    void addTerritoryButtons(){
+    public class AttackFortify {
+        static JButton attackFortifyBtn = new JButton("Attack!");
+        static SpinnerModel model = new SpinnerNumberModel(1, 1, 99, 1);
+        // TODO dynamically set maximum of spinner to selectedTerritory.troops - 1
+        static JSpinner spinner = new JSpinner(model);
+        AttackFortify(){}
 
+        static void simulateBattle(){
+            if (selectedTerritory != null && targetedTerritory != null){
+                int attackingWith = (Integer)spinner.getValue();
+                if (attackingWith > 1 && selectedTerritory.troops > 1){
+                    if (isAdjacent(selectedTerritory, targetedTerritory)){
+                        Random random = new Random();
+                        int a1 = random.nextInt(1, 7);
+                        int a2 = random.nextInt(1, 7);
+                        int a3 = random.nextInt(1, 7);
+                        int d1 = random.nextInt(1, 7);
+                        int d2 = random.nextInt(1, 7);
+                        List<Integer> rolls = Arrays.asList(a1, a2, a3, d1, d2);
+                        Collections.sort(rolls, Collections.reverseOrder());
+                        int losses = 0;
+                        if (d1 == rolls.get(0) || d1 == rolls.get(1)){
+                            selectedTerritory.troops -= 1;
+                            losses += 1;
+                        } else {
+                            targetedTerritory.troops -= 1;
+                        }
+                        if (d2 == rolls.get(0) || d2 == rolls.get(1)){
+                            selectedTerritory.troops -= 1;
+                            losses += 1;
+                        } else {
+                            targetedTerritory.troops -= 1;
+                        }
+                        Player target = targetedTerritory.controlledBy;
+                        Player selected = selectedTerritory.controlledBy;
+                        if (targetedTerritory.troops <= 0){
+                            targetedTerritory.controlledBy = selected;
+                            target.playerTerritories.remove(targetedTerritory);
+                            targetedTerritory.troops = (Integer)spinner.getValue() - losses;
+                            selectedTerritory.troops -= (Integer)spinner.getValue() - losses;
+                        }
+                        selectedTerritory.area.setText(selectedTerritory.name +
+                                " "+ String.valueOf(selectedTerritory.troops));
+                        targetedTerritory.area.setText(targetedTerritory.name +
+                                " "+ String.valueOf(targetedTerritory.troops));
+                        targetedTerritory.area.setBackground(Territory.getColor(selected.team));
+                    }
+                }
+            }
+        }
+        static void fortify(){
+            // TODO check if selectedTerritory and targeted are linked
+            if (selectedTerritory.controlledBy.team == targetedTerritory.controlledBy.team){
+                targetedTerritory.troops += (Integer)spinner.getValue();
+                selectedTerritory.troops -= (Integer)spinner.getValue();
+                selectedTerritory.area.setText(selectedTerritory.name +
+                        " "+ String.valueOf(selectedTerritory.troops));
+                targetedTerritory.area.setText(targetedTerritory.name +
+                        " "+ String.valueOf(targetedTerritory.troops));
+                hasFortified = true;
+            }
+        }
+    }
+
+    static boolean isAdjacent(Territory t1, Territory t2){
+        // TODO btw, should probably just change to array list in constructor, didn't want to mess with your code
+        List<Integer> temp = Arrays.stream(t1.adjacentTerritories).boxed().toList();
+        if (temp.contains(t2.id)){
+            return true;
+        }
+        return false;
+    }
+    void addButtons(){
+        add(cycleAction);
+        add(selectedButton);
+        add(targetedButton);
+        add(AttackFortify.attackFortifyBtn);
+        add(AttackFortify.spinner);
     }
 }

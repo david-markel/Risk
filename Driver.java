@@ -21,9 +21,7 @@ public class Driver {
         mapPane.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int x=e.getX();
-                int y=e.getY();
-                System.out.println("Cords of mouse helper " +x+","+y);//these co-ords are relative to the component
+                ;
             }
 
             @Override
@@ -138,6 +136,7 @@ public class Driver {
         Phase currentPhase = Phase.START;
         int initialTroops = 0;
 
+        // TODO add component that displays text to user telling them what happened, errors, dice rolls, etc...
         while (run){
             if (ActionUI.playerList.size() > 0){
                 Territory.currentPlayer = ActionUI.playerList.get(ActionUI.turn);
@@ -170,8 +169,8 @@ public class Driver {
                 }
                 mapPane.remove(playersButton);
                 mapPane.remove(startButton);
-                actionUI = new ActionUI(Player.playerList, initialTroops); // put in initialTroops, just 5 for testing
-                actionUI.setBounds(760, 0, 100, 100);
+                actionUI = new ActionUI(Player.playerList, 3); // TODO put in initialTroops
+                actionUI.setBounds(760, 0, 150, 200);
                 mapPane.add(actionUI, zIndex);
             }
             if (currentPhase == Phase.PLACING){
@@ -185,7 +184,7 @@ public class Driver {
                     // placed all troops
                     currentPhase = Phase.PLAYING;
                     ActionUI.phase = currentPhase;
-                    actionUI.add(ActionUI.cycleAction);
+                    actionUI.addButtons();
                 }
             }
             if (currentPhase == Phase.PLAYING){
@@ -201,13 +200,17 @@ public class Driver {
                     }
                     if (ActionUI.placedTroops <= 0){
                         ActionUI.toggleAction();
+                        ActionUI.troopCounter.setText("");
                     }
                 } else if (ActionUI.action == Action.ATTACK){
 
                 } else if (ActionUI.action == Action.FORTIFY){
                     // skip for now
-                    ActionUI.toggleAction();
-                    ActionUI.receivedTroops = false;
+                    if (ActionUI.hasFortified){
+                        ActionUI.toggleAction();
+                        ActionUI.receivedTroops = false;
+                        ActionUI.hasFortified = true;
+                    }
                 }
             }
             // constantly refresh components

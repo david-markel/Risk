@@ -170,8 +170,8 @@ public class Driver {
                 }
                 mapPane.remove(playersButton);
                 mapPane.remove(startButton);
-                actionUI = new ActionUI(Player.playerList, initialTroops); // put in initialTroops, just 5 for testing
-                actionUI.setBounds(760, 0, 100, 100);
+                actionUI = new ActionUI(Player.playerList, 3); // put in initialTroops, just 5 for testing
+                actionUI.setBounds(760, 0, 150, 150);
                 mapPane.add(actionUI, zIndex);
             }
             if (currentPhase == Phase.PLACING){
@@ -185,7 +185,7 @@ public class Driver {
                     // placed all troops
                     currentPhase = Phase.PLAYING;
                     ActionUI.phase = currentPhase;
-                    actionUI.add(ActionUI.cycleAction);
+                    actionUI.addButtons();
                 }
             }
             if (currentPhase == Phase.PLAYING){

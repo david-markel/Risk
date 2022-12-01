@@ -139,7 +139,9 @@ public class ActionUI extends JPanel {
             });
         }
     }
-    void addTerritoryButtons(){
-
+    void addButtons(){
+        add(cycleAction);
+        add(selectedTerritory);
+        add(targetedTerritory);
     }
 }

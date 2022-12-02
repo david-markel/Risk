@@ -164,6 +164,17 @@ public class Territory {
         return false;
     }
 
+    //calculate legal attack targets
+    List<Territory> legalAttack() {
+        List<Territory> targets = new ArrayList();
+        for(int i = 0; i < adjacentTerritories.length; i++) {
+            if(masterList.get(adjacentTerritories[i] - 1).controlledBy != controlledBy) {
+                targets.add(masterList.get(adjacentTerritories[i] - 1));
+            }
+        }
+        return targets;
+    }
+
     //calculate legal fortification targets using recursive function
     List<Territory> legalFortify(List<Territory> targets) {
         for(int i = 0; i <  adjacentTerritories.length; i++) {

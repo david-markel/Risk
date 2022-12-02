@@ -67,6 +67,7 @@ public class ActionUI extends JPanel {
             AttackFortify.attackFortifyBtn.setText("Fortify");
         } else {
             action = Action.DEPLOY;
+            AttackFortify.attackFortifyBtn.setText("Deploy");
             nextPlayer();
         }
         actionTracker.setText(action.name());
@@ -86,7 +87,11 @@ public class ActionUI extends JPanel {
             Player currentPlayer = playerList.get(turn);
             int calc = (Math.floorDiv (currentPlayer.playerTerritories.size(), 3))
                     + currentPlayer.calcContinentRewards();
-            placedTroops = calc > 3 ? calc : 3;
+            if(calc > 3) {
+                placedTroops = calc;
+            } else {
+                placedTroops = 3;
+            }
             troopCounter.setText("Troops: " + (int)placedTroops);
         } else {
             return;

@@ -199,6 +199,7 @@ public class Driver {
                         ActionUI.troopCounter.setText("Troops: " + (int)ActionUI.placedTroops);
                     }
                     if (ActionUI.placedTroops <= 0){
+                        ActionUI.receivedTroops = false;
                         ActionUI.toggleAction();
                         ActionUI.troopCounter.setText("");
                     }

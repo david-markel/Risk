@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLOutput;
 import java.util.*;
 import java.util.List;
 
@@ -168,18 +169,20 @@ public class ActionUI extends JPanel {
         }
         static void fortify(){
             // TODO check if selectedTerritory and targeted are linked
-            if (selectedTerritory.controlledBy.team == targetedTerritory.controlledBy.team){
+            List<Territory> targets = new ArrayList();
+            if (selectedTerritory.legalFortify(targets).contains(targetedTerritory)){
+                System.out.println(targets.get(0));
                 targetedTerritory.troops += (Integer)spinner.getValue();
                 selectedTerritory.troops -= (Integer)spinner.getValue();
                 selectedTerritory.area.setText(selectedTerritory.name +
                         " "+ String.valueOf(selectedTerritory.troops));
                 targetedTerritory.area.setText(targetedTerritory.name +
                         " "+ String.valueOf(targetedTerritory.troops));
-                hasFortified = true;
             }
         }
     }
 
+    //I put this one in the territory class. I didnt delete this in case you put it somewhere
     static boolean isAdjacent(Territory t1, Territory t2){
         // TODO btw, should probably just change to array list in constructor, didn't want to mess with your code
         List<Integer> temp = Arrays.stream(t1.adjacentTerritories).boxed().toList();

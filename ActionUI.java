@@ -147,14 +147,14 @@ public class ActionUI extends JPanel {
                             Collections.sort(attackingRolls, Collections.reverseOrder());
                             Collections.sort(defendingRolls, Collections.reverseOrder());
                             if (targetedTerritory.troops == 1) { //one defensive dice
-                                if (attackingWith == 1) {
+                                if (attackingWith == 1) {   //one defensive one offensive
                                     if (a1 > d1) {
                                         targetedTerritory.troops--;
                                     } else {
                                         selectedTerritory.troops--;
                                         attackingWith--;
                                     }
-                                } else {
+                                } else { //two offensive 1 defensive
                                     if (attackingRolls.get(0) > d1) {
                                         targetedTerritory.troops--;
                                     } else {
@@ -162,29 +162,31 @@ public class ActionUI extends JPanel {
                                         attackingWith--;
                                     }
                                 }
-                            } else {    //2 defensve dice
-                                if (attackingWith == 1) {
-                                    if (a1 > defendingRolls.get(0)) {
-                                        targetedTerritory.troops--;
-                                    } else {
-                                        selectedTerritory.troops--;
-                                        attackingWith--;
-                                    }
+                            }
+                        } else {    //3 offensive dice
+                            if (attackingWith == 1) {   //2 or more attackers 1 defender
+                                if (a1 > defendingRolls.get(0)) {
+                                    targetedTerritory.troops--;
                                 } else {
-                                    if (attackingRolls.get(0) > defendingRolls.get(0)) {
-                                        targetedTerritory.troops--;
-                                    } else {
-                                        selectedTerritory.troops--;
-                                        attackingWith--;
-                                    }
-                                    if (attackingRolls.get(1) > defendingRolls.get(1)) {
-                                        targetedTerritory.troops--;
-                                    } else {
-                                        selectedTerritory.troops--;
-                                        attackingWith--;
-                                    }
+                                    selectedTerritory.troops--;
+                                    attackingWith--;
+                                }
+                            } else { //2 or more attackers and 2 defenders
+                                if (attackingRolls.get(0) > defendingRolls.get(0)) {
+                                    targetedTerritory.troops--;
+                                } else {
+                                    selectedTerritory.troops--;
+                                    attackingWith--;
+                                }
+                                if (attackingRolls.get(1) > defendingRolls.get(1)) {
+                                    targetedTerritory.troops--;
+                                } else {
+                                    selectedTerritory.troops--;
+                                    attackingWith--;
                                 }
                             }
+                        }
+                    }
                             Player target = targetedTerritory.controlledBy;
                             Player selected = selectedTerritory.controlledBy;
                             if (targetedTerritory.troops <= 0) {
@@ -198,11 +200,9 @@ public class ActionUI extends JPanel {
                                         " " + String.valueOf(targetedTerritory.troops));
                                 targetedTerritory.area.setBackground(Territory.getColor(selected.team));
                             }
-                        }
-                    } else {
-                        //output an error message here "illegal amount selected"
-                    }
                 }
+            } else {
+                        //output an error message here "illegal amount selected"
             }
         }
         static void fortify(){

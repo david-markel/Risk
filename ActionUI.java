@@ -124,45 +124,78 @@ public class ActionUI extends JPanel {
         static JSpinner spinner = new JSpinner(model);
         AttackFortify(){}
 
-        static void simulateBattle(){
-            if (selectedTerritory != null && targetedTerritory != null){
-                int attackingWith = (Integer)spinner.getValue();
-                if (attackingWith < selectedTerritory.troops){
-                    if (selectedTerritory.isAdjacent(targetedTerritory)){
+        static void simulateBattle() {
+            if (selectedTerritory != null && targetedTerritory != null) {
+                int attackingWith = (Integer) spinner.getValue();
+                if (attackingWith < selectedTerritory.troops) {
+                    if (selectedTerritory.isAdjacent(targetedTerritory)) {
                         Random random = new Random();
                         int a1 = random.nextInt(1, 7);
                         int a2 = random.nextInt(1, 7);
                         int a3 = random.nextInt(1, 7);
                         int d1 = random.nextInt(1, 7);
                         int d2 = random.nextInt(1, 7);
-                        List<Integer> rolls = Arrays.asList(a1, a2, a3, d1, d2);
-                        Collections.sort(rolls, Collections.reverseOrder());
-                        int losses = 0;
-                        if (d1 == rolls.get(0) || d1 == rolls.get(1)){
-                            selectedTerritory.troops -= 1;
-                            losses += 1;
-                        } else {
-                            targetedTerritory.troops -= 1;
+                        List<Integer> attackingRolls = Arrays.asList(a1, a2, a3);
+                        List<Integer> defendingRolls = Arrays.asList(d1, d2);
+                        if (attackingWith < 3) {
+                            attackingRolls = Arrays.asList(a1, a2);
+                            Collections.sort(attackingRolls, Collections.reverseOrder());
+                            Collections.sort(defendingRolls, Collections.reverseOrder());
+                            if (targetedTerritory.troops == 1) { //one defensive dice
+                                if (attackingWith == 1) {
+                                    if (a1 > d1) {
+                                        targetedTerritory.troops--;
+                                    } else {
+                                        selectedTerritory.troops--;
+                                        attackingWith--;
+                                    }
+                                } else {
+                                    if (attackingRolls.get(0) > d1) {
+                                        targetedTerritory.troops--;
+                                    } else {
+                                        selectedTerritory.troops--;
+                                        attackingWith--;
+                                    }
+                                }
+                            } else {    //2 defensve dice
+                                if (attackingWith == 1) {
+                                    if (a1 > defendingRolls.get(0)) {
+                                        targetedTerritory.troops--;
+                                    } else {
+                                        selectedTerritory.troops--;
+                                        attackingWith--;
+                                    }
+                                } else {
+                                    if (attackingRolls.get(0) > defendingRolls.get(0)) {
+                                        targetedTerritory.troops--;
+                                    } else {
+                                        selectedTerritory.troops--;
+                                        attackingWith--;
+                                    }
+                                    if (attackingRolls.get(1) > defendingRolls.get(1)) {
+                                        targetedTerritory.troops--;
+                                    } else {
+                                        selectedTerritory.troops--;
+                                        attackingWith--;
+                                    }
+                                }
+                            }
+                            Player target = targetedTerritory.controlledBy;
+                            Player selected = selectedTerritory.controlledBy;
+                            if (targetedTerritory.troops <= 0) {
+                                targetedTerritory.controlledBy = selected;
+                                target.playerTerritories.remove(targetedTerritory);
+                                targetedTerritory.troops = attackingWith;
+                                selectedTerritory.troops -= attackingWith;
+                                selectedTerritory.area.setText(selectedTerritory.name +
+                                        " " + String.valueOf(selectedTerritory.troops));
+                                targetedTerritory.area.setText(targetedTerritory.name +
+                                        " " + String.valueOf(targetedTerritory.troops));
+                                targetedTerritory.area.setBackground(Territory.getColor(selected.team));
+                            }
                         }
-                        if (d2 == rolls.get(0) || d2 == rolls.get(1)){
-                            selectedTerritory.troops -= 1;
-                            losses += 1;
-                        } else {
-                            targetedTerritory.troops -= 1;
-                        }
-                        Player target = targetedTerritory.controlledBy;
-                        Player selected = selectedTerritory.controlledBy;
-                        if (targetedTerritory.troops <= 0){
-                            targetedTerritory.controlledBy = selected;
-                            target.playerTerritories.remove(targetedTerritory);
-                            targetedTerritory.troops = (Integer)spinner.getValue() - losses;
-                            selectedTerritory.troops -= (Integer)spinner.getValue() - losses;
-                        }
-                        selectedTerritory.area.setText(selectedTerritory.name +
-                                " "+ String.valueOf(selectedTerritory.troops));
-                        targetedTerritory.area.setText(targetedTerritory.name +
-                                " "+ String.valueOf(targetedTerritory.troops));
-                        targetedTerritory.area.setBackground(Territory.getColor(selected.team));
+                    } else {
+                        //output an error message here "illegal amount selected"
                     }
                 }
             }
@@ -170,7 +203,6 @@ public class ActionUI extends JPanel {
         static void fortify(){
             List<Territory> targets = new ArrayList();
             if (selectedTerritory.legalFortify(targets).contains(targetedTerritory) && selectedTerritory.troops > (Integer)spinner.getValue()){
-                System.out.println(targets.get(0));
                 targetedTerritory.troops += (Integer)spinner.getValue();
                 selectedTerritory.troops -= (Integer)spinner.getValue();
                 selectedTerritory.area.setText(selectedTerritory.name +

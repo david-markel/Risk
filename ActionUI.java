@@ -12,7 +12,7 @@ public class ActionUI extends JPanel {
     static JLabel turnTracker = new JLabel();
     static JLabel actionTracker = new JLabel();
     static JLabel troopCounter = new JLabel();
-    static JButton cycleAction = new JButton("Cycle Action");
+    static JButton cycleAction = new JButton("Next Phase");
     static Action action = Action.DEPLOY; // used in multiple classes, all same object
     static Phase phase = Phase.START;
     static float placedTroops;
@@ -127,8 +127,8 @@ public class ActionUI extends JPanel {
         static void simulateBattle(){
             if (selectedTerritory != null && targetedTerritory != null){
                 int attackingWith = (Integer)spinner.getValue();
-                if (attackingWith > 1 && selectedTerritory.troops > 1){
-                    if (isAdjacent(selectedTerritory, targetedTerritory)){
+                if (attackingWith < selectedTerritory.troops){
+                    if (selectedTerritory.isAdjacent(targetedTerritory)){
                         Random random = new Random();
                         int a1 = random.nextInt(1, 7);
                         int a2 = random.nextInt(1, 7);
@@ -182,15 +182,6 @@ public class ActionUI extends JPanel {
         }
     }
 
-    //I put this one in the territory class. I didnt delete this in case you put it somewhere
-    static boolean isAdjacent(Territory t1, Territory t2){
-        // TODO btw, should probably just change to array list in constructor, didn't want to mess with your code
-        List<Integer> temp = Arrays.stream(t1.adjacentTerritories).boxed().toList();
-        if (temp.contains(t2.id)){
-            return true;
-        }
-        return false;
-    }
     void addButtons(){
         add(cycleAction);
         add(selectedButton);

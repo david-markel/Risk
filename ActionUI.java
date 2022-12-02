@@ -168,9 +168,8 @@ public class ActionUI extends JPanel {
             }
         }
         static void fortify(){
-            // TODO check if selectedTerritory and targeted are linked
             List<Territory> targets = new ArrayList();
-            if (selectedTerritory.legalFortify(targets).contains(targetedTerritory)){
+            if (selectedTerritory.legalFortify(targets).contains(targetedTerritory) && selectedTerritory.troops > (Integer)spinner.getValue()){
                 System.out.println(targets.get(0));
                 targetedTerritory.troops += (Integer)spinner.getValue();
                 selectedTerritory.troops -= (Integer)spinner.getValue();

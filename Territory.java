@@ -164,10 +164,15 @@ public class Territory {
         return false;
     }
 
-    //calculate legal fortification targets
-    int[] legalFortify() {
-        int[] targets = new int[41];
-
+    //calculate legal fortification targets using recursive function
+    List<Territory> legalFortify(List<Territory> targets) {
+        for(int i = 0; i <  adjacentTerritories.length; i++) {
+            Territory check = masterList.get(adjacentTerritories[i] - 1);   //the master list is one off from the ids
+            if( !targets.contains(check) && check.controlledBy == controlledBy) {
+                targets.add(check);
+                check.legalFortify(targets);
+            }
+        }
         return targets;
     }
 }

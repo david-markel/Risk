@@ -153,6 +153,17 @@ public class Territory {
             return new Color(153, 102, 0);
         }
     }
+
+    //Tells if the target is adjacent to territory
+    boolean isAdjacent(Territory target) {
+        for(int i = 0; i < adjacentTerritories.length; i++) {
+            if(target.id == adjacentTerritories[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     //calculate legal fortification targets
     int[] legalFortify() {
         int[] targets = new int[41];

@@ -188,7 +188,7 @@ public class Driver {
                 }
             }
             if (currentPhase == Phase.PLAYING){
-                if (ActionUI.action == Action.DEPLOY){
+                if(ActionUI.action == Action.DEPLOY) {
                     if (!ActionUI.receivedTroops){
                         ActionUI.getIncomingTroops();
                         ActionUI.receivedTroops = true;
@@ -201,18 +201,10 @@ public class Driver {
                     if (ActionUI.placedTroops <= 0){
                         ActionUI.receivedTroops = false;
                         ActionUI.toggleAction();
-                        ActionUI.troopCounter.setText("");
-                    }
-                } else if (ActionUI.action == Action.ATTACK){
-
-                } else if (ActionUI.action == Action.FORTIFY){
-                    // skip for now
-                    if (ActionUI.hasFortified){
-                        ActionUI.toggleAction();
-                        ActionUI.receivedTroops = false;
-                        ActionUI.hasFortified = true;
                     }
                 }
+
+
             }
             // constantly refresh components
             mapPane.repaint();

@@ -1,5 +1,7 @@
 public enum Phase {
     START,
     PLACING,
-    PLAYING
+    PLAYING,
+
+    VICTORY
 }

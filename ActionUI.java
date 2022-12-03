@@ -202,7 +202,7 @@ public class ActionUI extends JPanel {
                             }
                 }
             } else {
-                        //output an error message here "illegal amount selected"
+                new ErrorMessage();
             }
         }
         static void fortify(){
@@ -214,6 +214,8 @@ public class ActionUI extends JPanel {
                         " "+ String.valueOf(selectedTerritory.troops));
                 targetedTerritory.area.setText(targetedTerritory.name +
                         " "+ String.valueOf(targetedTerritory.troops));
+            } else {
+                new ErrorMessage();
             }
         }
     }

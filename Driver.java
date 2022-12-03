@@ -188,7 +188,16 @@ public class Driver {
                 }
             }
             if (currentPhase == Phase.PLAYING){
-                if(ActionUI.action == Action.DEPLOY) {
+                //player wins
+                if(ActionUI.playerList.get(ActionUI.turn).playerTerritories.size() == 42) {
+                    currentPhase = Phase.VICTORY;
+                }
+                //player eliminated
+                else if(ActionUI.playerList.get(ActionUI.turn).playerTerritories.size() == 0) {
+                    //print out a you lose message
+                    ActionUI.playerList.remove(ActionUI.turn);
+                }
+                else if(ActionUI.action == Action.DEPLOY) {
                     if (!ActionUI.receivedTroops){
                         ActionUI.getIncomingTroops();
                         ActionUI.receivedTroops = true;

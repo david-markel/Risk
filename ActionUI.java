@@ -202,7 +202,7 @@ public class ActionUI extends JPanel {
                             }
                 }
             } else {
-                new ErrorMessage();
+                new messageBox();
             }
         }
         static void fortify(){
@@ -215,7 +215,7 @@ public class ActionUI extends JPanel {
                 targetedTerritory.area.setText(targetedTerritory.name +
                         " "+ String.valueOf(targetedTerritory.troops));
             } else {
-                new ErrorMessage();
+                new messageBox();
             }
         }
     }

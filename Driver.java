@@ -169,7 +169,7 @@ public class Driver {
                 }
                 mapPane.remove(playersButton);
                 mapPane.remove(startButton);
-                actionUI = new ActionUI(Player.playerList, 3); // TODO put in initialTroops
+                actionUI = new ActionUI(Player.playerList, initialTroops); // TODO put in initialTroops
                 actionUI.setBounds(760, 0, 150, 200);
                 mapPane.add(actionUI, zIndex);
             }

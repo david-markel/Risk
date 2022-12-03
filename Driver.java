@@ -195,6 +195,7 @@ public class Driver {
                 //player eliminated
                 else if(ActionUI.playerList.get(ActionUI.turn).playerTerritories.size() == 0) {
                     //print out a you lose message
+                    new messageBox("Player" + ActionUI.turn + "Eliminated!");
                     ActionUI.playerList.remove(ActionUI.turn);
                 }
                 else if(ActionUI.action == Action.DEPLOY) {
@@ -214,6 +215,10 @@ public class Driver {
                 }
 
 
+            }
+            if(currentPhase == Phase.VICTORY) {
+                new messageBox("Game Over! Player" + ActionUI.turn + "Wins.");
+                run = false;
             }
             // constantly refresh components
             mapPane.repaint();

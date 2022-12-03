@@ -126,7 +126,6 @@ public class ActionUI extends JPanel {
     public class AttackFortify {
         static JButton attackFortifyBtn = new JButton("Attack!");
         static SpinnerModel model = new SpinnerNumberModel(1, 1, 99, 1);
-        // TODO dynamically set maximum of spinner to selectedTerritory.troops - 1
         static JSpinner spinner = new JSpinner(model);
         AttackFortify(){}
 
@@ -143,19 +142,24 @@ public class ActionUI extends JPanel {
                         int d2 = random.nextInt(1, 7);
                         List<Integer> attackingRolls = Arrays.asList(a1, a2, a3);
                         List<Integer> defendingRolls = Arrays.asList(d1, d2);
-                        if (attackingWith < 3) {
+
+
+                        if (targetedTerritory.troops < 2) {
                             attackingRolls = Arrays.asList(a1, a2);
                             Collections.sort(attackingRolls, Collections.reverseOrder());
                             Collections.sort(defendingRolls, Collections.reverseOrder());
                             if (targetedTerritory.troops == 1) { //one defensive dice
                                 if (attackingWith == 1) {   //one defensive one offensive
+                                    new messageBox("Attacking roll: " + a1 + "\n" + "Defending roll: " + d1);
                                     if (a1 > d1) {
                                         targetedTerritory.troops--;
                                     } else {
                                         selectedTerritory.troops--;
                                         attackingWith--;
                                     }
-                                } else { //two offensive 1 defensive
+                                } else { //two offensive or more 1 defensive
+                                    new messageBox("Highest Attacking roll: " + attackingRolls.get(0) + "\n"
+                                            + "Defending rolls: " + d1);
                                     if (attackingRolls.get(0) > d1) {
                                         targetedTerritory.troops--;
                                     } else {
@@ -164,8 +168,10 @@ public class ActionUI extends JPanel {
                                     }
                                 }
                             }
-                        } else {    //3 offensive dice
-                            if (attackingWith == 1) {   //2 or more attackers 1 defender
+                        } else {    //2 defensive dice
+                            if (attackingWith == 1) {   //2 or more defenders 1 attacker
+                                new messageBox(" Highest Attacking roll: " + a1 +
+                                        "\n Highest Defending roll: " + defendingRolls.get(0));
                                 if (a1 > defendingRolls.get(0)) {
                                     targetedTerritory.troops--;
                                 } else {
@@ -173,6 +179,8 @@ public class ActionUI extends JPanel {
                                     attackingWith--;
                                 }
                             } else { //2 or more attackers and 2 defenders
+                                new messageBox("Highest Attacking Rolls: " + attackingRolls.get(0) + attackingRolls.get(1) +
+                                        "\n Defending rolls: " + defendingRolls.get(0) + defendingRolls.get(1));
                                 if (attackingRolls.get(0) > defendingRolls.get(0)) {
                                     targetedTerritory.troops--;
                                 } else {
@@ -187,20 +195,28 @@ public class ActionUI extends JPanel {
                                 }
                             }
                         }
+
+
+                        Player target = targetedTerritory.controlledBy;
+                        Player selected = selectedTerritory.controlledBy;
+                        if (targetedTerritory.troops <= 0) {
+                            targetedTerritory.controlledBy = selected;
+                            target.playerTerritories.remove(targetedTerritory);
+                            selected.playerTerritories.add(targetedTerritory);
+                            targetedTerritory.troops = attackingWith;
+                            selectedTerritory.troops -= attackingWith;
+                            selectedTerritory.area.setText(selectedTerritory.name +
+                                    " " + String.valueOf(selectedTerritory.troops));
+                            targetedTerritory.area.setText(targetedTerritory.name +
+                                    " " + String.valueOf(targetedTerritory.troops));
+                            targetedTerritory.area.setBackground(Territory.getColor(selected.team));
+                        } else {
+                            selectedTerritory.area.setText(selectedTerritory.name +
+                                    " " + String.valueOf(selectedTerritory.troops));
+                            targetedTerritory.area.setText(targetedTerritory.name +
+                                    " " + String.valueOf(targetedTerritory.troops));
+                        }
                     }
-                            Player target = targetedTerritory.controlledBy;
-                            Player selected = selectedTerritory.controlledBy;
-                            if (targetedTerritory.troops <= 0) {
-                                targetedTerritory.controlledBy = selected;
-                                target.playerTerritories.remove(targetedTerritory);
-                                targetedTerritory.troops = attackingWith;
-                                selectedTerritory.troops -= attackingWith;
-                                selectedTerritory.area.setText(selectedTerritory.name +
-                                        " " + String.valueOf(selectedTerritory.troops));
-                                targetedTerritory.area.setText(targetedTerritory.name +
-                                        " " + String.valueOf(targetedTerritory.troops));
-                                targetedTerritory.area.setBackground(Territory.getColor(selected.team));
-                            }
                 }
             } else {
                 new messageBox();

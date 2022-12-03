@@ -62,7 +62,7 @@ public class Driver {
         Territory cAmerica = new Territory("C. America", Continent.NA, 5, new int[]{4, 6, 10}, 42, 247);
         Territory eUS = new Territory("E. US", Continent.NA, 6, new int[]{4, 5, 7, 8}, 164, 177);
         Territory ontario = new Territory("Ontario", Continent.NA, 7, new int[]{2, 3, 4, 6, 8, 9}, 150, 131);
-        Territory quebec = new Territory("Quebec", Continent.NA, 8, new int[]{6, 7, 9}, 209, 136);
+        Territory quebec = new Territory("Quebec", Continent.NA, 8, new int[]{6, 7, 9}, 232, 109);
         Territory greenland = new Territory("Greenland", Continent.NA, 9, new int[]{2, 7, 8, 14}, 236, 44);
         // in constructor, automatically added to continent list, so loop through it to add to mapPane
         for (int i = 0; i < Territory.naList.size(); i++){
@@ -78,11 +78,11 @@ public class Driver {
         }
         
         Territory iceland = new Territory("Iceland", Continent.EUROPE, 14, new int[]{9, 15, 17}, 296, 75);
-        Territory greatBritain = new Territory("Great Britain", Continent.EUROPE, 15, new int[]{14, 16, 17, 18}, 288, 159);
+        Territory greatBritain = new Territory("Great Britain", Continent.EUROPE, 15, new int[]{14, 16, 17, 18}, 294, 139);
         Territory wEurope = new Territory("W. Europe", Continent.EUROPE, 16, new int[]{15, 18, 19, 21}, 302, 228);
         Territory scandinavia = new Territory("Scandinavia", Continent.EUROPE, 17, new int[]{14, 15, 18, 20}, 369, 91);
         Territory nEurope = new Territory("N. Europe", Continent.EUROPE, 18, new int[]{15, 16, 17, 19, 20}, 348, 165);
-        Territory sEurope = new Territory("S. Europe", Continent.EUROPE, 19, new int[]{16, 18, 20, 21, 24, 27}, 358, 216);
+        Territory sEurope = new Territory("S. Europe", Continent.EUROPE, 19, new int[]{16, 18, 20, 21, 24, 27}, 360, 196);
         Territory ukraine = new Territory("Ukraine", Continent.EUROPE, 20, new int[]{17, 18, 19, 27, 28, 29}, 422, 129);
         for (int i = 0; i < Territory.europeList.size(); i++){
             mapPane.add(Territory.europeList.get(i).area, zIndex);
@@ -99,14 +99,14 @@ public class Driver {
         Territory middleEast = new Territory("Middle East", Continent.ASIA, 27, new int[]{19, 20, 24, 25, 29, 30}, 438, 246);
         Territory ural = new Territory("Ural", Continent.ASIA, 28, new int[]{20, 29, 31, 32}, 498, 107);
         Territory afghanistan = new Territory("Afghanistan", Continent.ASIA, 29, new int[]{20, 27, 28, 31}, 480, 180);
-        Territory india = new Territory("India", Continent.ASIA, 30, new int[]{27, 29, 32, 33}, 520, 245);
+        Territory india = new Territory("India", Continent.ASIA, 30, new int[]{27, 29, 32, 33}, 521, 289);
         Territory siberia = new Territory("Siberia", Continent.ASIA, 31, new int[]{20, 28, 29, 32, 34, 35, 36}, 525, 69);
         Territory china = new Territory("China", Continent.ASIA, 32, new int[]{28, 29, 30, 31, 33, 36}, 565, 219);
         Territory siam = new Territory("Siam", Continent.ASIA, 33, new int[]{30, 32, 39}, 596, 280);
         Territory yakutsk = new Territory("Yakutsk", Continent.ASIA, 34, new int[]{31, 35, 37}, 594, 62);
         Territory irkutsk = new Territory("Irkutsk", Continent.ASIA, 35, new int[]{31, 34, 36, 37}, 584, 134);
         Territory mongolia = new Territory("Mongolia", Continent.ASIA, 36, new int[]{31, 32, 35, 37, 38}, 595, 171);
-        Territory kamchatka = new Territory("Kamchatka", Continent.ASIA, 37, new int[]{1, 34, 35, 36, 38}, 648, 67);
+        Territory kamchatka = new Territory("Kamchatka", Continent.ASIA, 37, new int[]{1, 34, 35, 36, 38}, 653, 101);
         Territory japan = new Territory("Japan", Continent.ASIA, 38, new int[]{36, 37}, 676, 180);
         for (int i = 0; i < Territory.asiaList.size(); i++){
             mapPane.add(Territory.asiaList.get(i).area, zIndex);
@@ -169,7 +169,7 @@ public class Driver {
                 }
                 mapPane.remove(playersButton);
                 mapPane.remove(startButton);
-                actionUI = new ActionUI(Player.playerList, initialTroops); // TODO put in initialTroops
+                actionUI = new ActionUI(Player.playerList, 3); // TODO put in initialTroops
                 actionUI.setBounds(760, 0, 150, 200);
                 mapPane.add(actionUI, zIndex);
             }

@@ -45,6 +45,7 @@ public class ActionUI extends JPanel {
                     nextPlayer();
                 }
                 actionTracker.setText(action.name());
+                troopCounter.setText("Troops: " + (int)placedTroops);
             }
         });
         AttackFortify.attackFortifyBtn.addActionListener(new ActionListener() {

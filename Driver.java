@@ -136,7 +136,6 @@ public class Driver {
         Phase currentPhase = Phase.START;
         int initialTroops = 0;
 
-        // TODO add component that displays text to user telling them what happened, errors, dice rolls, etc...
         while (run){
             if (ActionUI.playerList.size() > 0){
                 Territory.currentPlayer = ActionUI.playerList.get(ActionUI.turn);

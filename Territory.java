@@ -59,7 +59,24 @@ public class Territory {
         area.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (currentPlayer != null && currentAction == Action.DEPLOY)
+                if (currentPlayer != null && currentAction == Action.DEPLOY){
+                    if (controlledBy == null){
+                        setOwnership(currentPlayer);
+                    }
+                    // if placing and territories left
+                    if (troops > 0 && currentPhase == Phase.PLACING){
+                        for (int i = 0; i < masterList.size(); i++){
+                            if (masterList.get(i).controlledBy == null){
+                                return;
+                            }
+                        }
+                    }
+                    if(controlledBy == currentPlayer){
+                        troops += 1;
+                        area.setText(name + " "+ String.valueOf(troops));
+                        clickedWhilePlacing = true;
+                    }
+                }
                 if (currentAction == Action.ATTACK){
                     Territory temp = returnSelf();
                     if (ActionUI.TerritoryButton.selectedOn){
